@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,17 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stargaze Boutique - Admin Panel</title>
 <style>
-body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
-header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bold;text-align:center;}
-.container{max-width:900px;margin:20px auto;background:white;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.1);}
-h2{color:#d6336c;text-align:center;margin-bottom:20px;}
-input, select{width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
-button{background:#d6336c;color:white;padding:10px 16px;border:none;border-radius:6px;cursor:pointer;margin-top:8px;}
-button:hover{opacity:0.9;}
-.product-table{width:100%;border-collapse:collapse;margin-top:20px;}
-.product-table th, .product-table td{border:1px solid #ddd;padding:8px;text-align:center;}
-.product-table th{background:#f2f2f2;}
-.actions button{margin:2px;}
+body { margin:0; font-family:sans-serif; background:#f7f7f7; color:#333; }
+header { background:#d6336c; color:white; padding:15px; font-size:28px; font-weight:bold; text-align:center; }
+.container { max-width:900px; margin:30px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+h2 { color:#d6336c; text-align:center; margin-bottom:20px; }
+form { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
+form input, form select { padding:10px; border-radius:8px; border:1px solid #ccc; font-size:16px; flex:1 1 150px; }
+form button { background:#d6336c; color:white; border:none; padding:12px; border-radius:8px; font-size:16px; cursor:pointer; flex:1 1 100%; transition:0.3s; }
+form button:hover { opacity:0.85; }
+.table-container { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; }
+th, td { padding:12px; text-align:center; border-bottom:1px solid #eee; }
+th { background:#f5f5f5; }
+button.edit { background:#ffa500; color:white; }
+button.delete { background:#ff0000; color:white; }
 </style>
 </head>
 <body>
@@ -25,108 +29,109 @@ button:hover{opacity:0.9;}
 <div class="container">
   <h2>Manage Products</h2>
 
-  <h3>Add New Product</h3>
-  <div>
-    <input type="text" id="newName" placeholder="Product Name">
-    <input type="text" id="newCategory" placeholder="Category (Lehenga/Kurti/Saree)">
-    <input type="number" id="newPrice" placeholder="Price INR">
-    <input type="number" id="newDiscount" placeholder="Discount %">
-    <input type="number" id="newStock" placeholder="Stock Quantity">
-    <input type="text" id="newImage" placeholder="Image URL">
-    <button onclick="addProduct()">Add Product</button>
-  </div>
+  <!-- Add Product Form -->
+  <form id="add-product-form">
+    <input type="text" id="name" placeholder="Product Name" required>
+    <select id="category" required>
+      <option value="">Select Category</option>
+      <option value="Lehenga">Lehenga</option>
+      <option value="Kurti">Kurti</option>
+      <option value="Kurti Set">Kurti Set</option>
+      <option value="Saree">Saree</option>
+      <option value="Gown">Gown</option>
+      <option value="Pakistan Suit">Pakistan Suit</option>
+      <option value="Indian Suit">Indian Suit</option>
+      <option value="Ladies Innerwear">Ladies Innerwear</option>
+    </select>
+    <input type="number" id="priceINR" placeholder="Price (INR)" required>
+    <input type="number" id="discount" placeholder="Discount (%)" required>
+    <input type="number" id="stock" placeholder="Stock Quantity" required>
+    <input type="text" id="images" placeholder="Image URL (comma separated)" required>
+    <input type="text" id="whatsapp" placeholder="WhatsApp URL" required>
+    <button type="submit">Add Product</button>
+  </form>
 
-  <h3>Existing Products</h3>
-  <table class="product-table" id="productTable">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Discount</th>
-        <th>Stock</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <!-- Product Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Stock</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="product-table-body"></tbody>
+    </table>
+  </div>
 </div>
 
+<script src="products.js"></script>
 <script>
-// Sample products array (shared with your pages)
-let products = [
-  {id:1,name:"Red Lehenga",category:"Lehenga",priceINR:2000,discount:10,stock:10,images:["https://via.placeholder.com/250x300?text=Red+Lehenga"]},
-  {id:2,name:"Blue Kurti",category:"Kurti",priceINR:800,discount:5,stock:15,images:["https://via.placeholder.com/250x300?text=Blue+Kurti"]},
-  {id:3,name:"Silk Saree",category:"Saree",priceINR:1500,discount:15,stock:5,images:["https://via.placeholder.com/250x300?text=Silk+Saree"]}
-];
-products.forEach(p=>p.priceAfterDiscount=(p.priceINR*(1-p.discount/100)).toFixed(2));
-
-// Render products table
-function renderTable(){
-  const tbody=document.querySelector("#productTable tbody");
-  tbody.innerHTML="";
-  products.forEach(p=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`
+// Render Product Table
+function renderTable() {
+  const tbody = document.getElementById("product-table-body");
+  tbody.innerHTML = "";
+  products.forEach(p => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
       <td>${p.id}</td>
       <td>${p.name}</td>
       <td>${p.category}</td>
-      <td>${p.priceINR}</td>
-      <td>${p.discount}</td>
+      <td>${p.priceAfterDiscount}</td>
+      <td>${p.discount}%</td>
       <td>${p.stock}</td>
-      <td class="actions">
-        <button onclick="editProduct(${p.id})" style="background:#ffa500;">Edit</button>
-        <button onclick="deleteProduct(${p.id})" style="background:#ff0000;">Delete</button>
+      <td>
+        <button class="edit" onclick="editProduct(${p.id})">Edit</button>
+        <button class="delete" onclick="deleteProduct(${p.id})">Delete</button>
       </td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// Add new product
-function addProduct(){
-  const name=document.getElementById("newName").value;
-  const category=document.getElementById("newCategory").value;
-  const price=parseFloat(document.getElementById("newPrice").value);
-  const discount=parseFloat(document.getElementById("newDiscount").value);
-  const stock=parseInt(document.getElementById("newStock").value);
-  const image=document.getElementById("newImage").value;
-  if(!name || !category || isNaN(price) || isNaN(discount) || isNaN(stock) || !image){alert("Please fill all fields!"); return;}
-  const newId=products.length?products[products.length-1].id+1:1;
-  products.push({id:newId,name,category,priceINR:price,discount,stock,images:[image],priceAfterDiscount:(price*(1-discount/100)).toFixed(2)});
+// Add Product
+document.getElementById("add-product-form").addEventListener("submit", function(e){
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const category = document.getElementById("category").value;
+  const priceINR = parseFloat(document.getElementById("priceINR").value);
+  const discount = parseFloat(document.getElementById("discount").value);
+  const stock = parseInt(document.getElementById("stock").value);
+  const images = document.getElementById("images").value.split(",");
+  const whatsapp = document.getElementById("whatsapp").value;
+  const id = products.length ? products[products.length-1].id + 1 : 1;
+  const priceAfterDiscount = (priceINR*(1-discount/100)).toFixed(2);
+  products.push({id,name,category,priceINR,discount,priceAfterDiscount,stock,images,whatsapp});
   renderTable();
-}
+  this.reset();
+});
 
-// Edit product
+// Edit & Delete Functions
 function editProduct(id){
-  const p=products.find(pr=>pr.id===id);
+  const p = products.find(pr=>pr.id===id);
   if(!p) return;
-  const newName=prompt("Product Name:",p.name);
-  const newCategory=prompt("Category:",p.category);
-  const newPrice=parseFloat(prompt("Price:",p.priceINR));
-  const newDiscount=parseFloat(prompt("Discount %:",p.discount));
-  const newStock=parseInt(prompt("Stock Quantity:",p.stock));
-  if(newName) p.name=newName;
-  if(newCategory) p.category=newCategory;
-  if(!isNaN(newPrice)) p.priceINR=newPrice;
-  if(!isNaN(newDiscount)) p.discount=newDiscount;
-  if(!isNaN(newStock)) p.stock=newStock;
-  p.priceAfterDiscount=(p.priceINR*(1-p.discount/100)).toFixed(2);
+  const newName = prompt("Enter product name:", p.name); if(newName) p.name=newName;
+  const newPrice = prompt("Enter price:", p.priceINR); if(newPrice) p.priceINR=parseFloat(newPrice);
+  const newDiscount = prompt("Enter discount %:", p.discount); if(newDiscount) p.discount=parseFloat(newDiscount);
+  p.priceAfterDiscount = (p.priceINR*(1-p.discount/100)).toFixed(2);
+  const newStock = prompt("Enter stock quantity:", p.stock); if(newStock) p.stock=parseInt(newStock);
   renderTable();
 }
 
-// Delete product
 function deleteProduct(id){
-  const index=products.findIndex(p=>p.id===id);
-  if(index!==-1 && confirm("Are you sure to delete this product?")){
-    products.splice(index,1);
+  if(confirm("Are you sure to delete this product?")){
+    const index = products.findIndex(p=>p.id===id);
+    if(index!==-1) products.splice(index,1);
     renderTable();
   }
 }
 
 renderTable();
 </script>
-
 </body>
 </html>
