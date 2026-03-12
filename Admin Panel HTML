@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargaze Boutique - Admin Panel</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
+header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bold;text-align:center;}
+.container{max-width:900px;margin:20px auto;background:white;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.1);}
+h2{color:#d6336c;text-align:center;margin-bottom:20px;}
+input, select{width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
+button{background:#d6336c;color:white;padding:10px 16px;border:none;border-radius:6px;cursor:pointer;margin-top:8px;}
+button:hover{opacity:0.9;}
+.product-table{width:100%;border-collapse:collapse;margin-top:20px;}
+.product-table th, .product-table td{border:1px solid #ddd;padding:8px;text-align:center;}
+.product-table th{background:#f2f2f2;}
+.actions button{margin:2px;}
+</style>
+</head>
+<body>
+
+<header>🛍️ Stargaze Boutique - Admin Panel</header>
+
+<div class="container">
+  <h2>Manage Products</h2>
+
+  <h3>Add New Product</h3>
+  <div>
+    <input type="text" id="newName" placeholder="Product Name">
+    <input type="text" id="newCategory" placeholder="Category (Lehenga/Kurti/Saree)">
+    <input type="number" id="newPrice" placeholder="Price INR">
+    <input type="number" id="newDiscount" placeholder="Discount %">
+    <input type="number" id="newStock" placeholder="Stock Quantity">
+    <input type="text" id="newImage" placeholder="Image URL">
+    <button onclick="addProduct()">Add Product</button>
+  </div>
+
+  <h3>Existing Products</h3>
+  <table class="product-table" id="productTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Stock</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+// Sample products array (shared with your pages)
+let products = [
+  {id:1,name:"Red Lehenga",category:"Lehenga",priceINR:2000,discount:10,stock:10,images:["https://via.placeholder.com/250x300?text=Red+Lehenga"]},
+  {id:2,name:"Blue Kurti",category:"Kurti",priceINR:800,discount:5,stock:15,images:["https://via.placeholder.com/250x300?text=Blue+Kurti"]},
+  {id:3,name:"Silk Saree",category:"Saree",priceINR:1500,discount:15,stock:5,images:["https://via.placeholder.com/250x300?text=Silk+Saree"]}
+];
+products.forEach(p=>p.priceAfterDiscount=(p.priceINR*(1-p.discount/100)).toFixed(2));
+
+// Render products table
+function renderTable(){
+  const tbody=document.querySelector("#productTable tbody");
+  tbody.innerHTML="";
+  products.forEach(p=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${p.id}</td>
+      <td>${p.name}</td>
+      <td>${p.category}</td>
+      <td>${p.priceINR}</td>
+      <td>${p.discount}</td>
+      <td>${p.stock}</td>
+      <td class="actions">
+        <button onclick="editProduct(${p.id})" style="background:#ffa500;">Edit</button>
+        <button onclick="deleteProduct(${p.id})" style="background:#ff0000;">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Add new product
+function addProduct(){
+  const name=document.getElementById("newName").value;
+  const category=document.getElementById("newCategory").value;
+  const price=parseFloat(document.getElementById("newPrice").value);
+  const discount=parseFloat(document.getElementById("newDiscount").value);
+  const stock=parseInt(document.getElementById("newStock").value);
+  const image=document.getElementById("newImage").value;
+  if(!name || !category || isNaN(price) || isNaN(discount) || isNaN(stock) || !image){alert("Please fill all fields!"); return;}
+  const newId=products.length?products[products.length-1].id+1:1;
+  products.push({id:newId,name,category,priceINR:price,discount,stock,images:[image],priceAfterDiscount:(price*(1-discount/100)).toFixed(2)});
+  renderTable();
+}
+
+// Edit product
+function editProduct(id){
+  const p=products.find(pr=>pr.id===id);
+  if(!p) return;
+  const newName=prompt("Product Name:",p.name);
+  const newCategory=prompt("Category:",p.category);
+  const newPrice=parseFloat(prompt("Price:",p.priceINR));
+  const newDiscount=parseFloat(prompt("Discount %:",p.discount));
+  const newStock=parseInt(prompt("Stock Quantity:",p.stock));
+  if(newName) p.name=newName;
+  if(newCategory) p.category=newCategory;
+  if(!isNaN(newPrice)) p.priceINR=newPrice;
+  if(!isNaN(newDiscount)) p.discount=newDiscount;
+  if(!isNaN(newStock)) p.stock=newStock;
+  p.priceAfterDiscount=(p.priceINR*(1-p.discount/100)).toFixed(2);
+  renderTable();
+}
+
+// Delete product
+function deleteProduct(id){
+  const index=products.findIndex(p=>p.id===id);
+  if(index!==-1 && confirm("Are you sure to delete this product?")){
+    products.splice(index,1);
+    renderTable();
+  }
+}
+
+renderTable();
+</script>
+
+</body>
+</html>
