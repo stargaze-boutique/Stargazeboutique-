@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,6 @@
 <title>Stargaze Boutique - Ladies Innerwear</title>
 <style>
 body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
-a{text-decoration:none;color:inherit;}
 header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bold;text-align:center;}
 #search-bar{padding:8px 12px;border-radius:6px;border:1px solid #ccc;width:60%;max-width:400px;margin:10px auto;display:block;}
 /* Hero slider */
@@ -27,8 +26,8 @@ header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bo
 .out-stock{top:35px;background:#888;}
 .actions{display:flex;justify-content:center;gap:5px;margin-top:5px;}
 .actions button,.actions a{padding:6px 12px;border:none;border-radius:6px;color:white;transition:0.3s;}
-.actions button{cursor:pointer;}
-.actions a{display:inline-block;}
+.actions button{background:#d6336c;cursor:pointer;}
+.actions a{background:#25D366;text-decoration:none;display:inline-block;}
 /* Pagination */
 .pagination{display:flex;justify-content:center;gap:10px;margin:15px;}
 .pagination button{padding:8px 14px;border-radius:6px;border:none;background:#d6336c;color:white;cursor:pointer;}
@@ -48,7 +47,7 @@ header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bo
 
 <!-- Hero Slider -->
 <div id="hero">
-  <img src="https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Collection" alt="Slide 1">
+  <img src="https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Sale" alt="Slide 1">
   <button class="hero-arrow" id="prev-slide">&#10094;</button>
   <button class="hero-arrow" id="next-slide">&#10095;</button>
   <div class="hero-indicators"></div>
@@ -80,11 +79,11 @@ header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bo
 let currentPage=1, perPage=6, cart=[];
 let currentSlide=0;
 const heroImages=[
-  "https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Collection",
-  "https://via.placeholder.com/1200x400?text=New+Arrivals"
+  "https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Sale",
+  "https://via.placeholder.com/1200x400?text=New+Collection",
 ];
 
-// Hero Slider
+// Hero slider
 const heroImg=document.querySelector("#hero img");
 const indicators=document.querySelector(".hero-indicators");
 function renderIndicators(){
@@ -96,13 +95,13 @@ function renderIndicators(){
     indicators.appendChild(span);
   });
 }
-function updateHero(){ heroImg.src=heroImages[currentSlide]; renderIndicators();}
+function updateHero(){ heroImg.src=heroImages[currentSlide]; renderIndicators(); }
 document.getElementById("prev-slide").onclick=()=>{currentSlide=(currentSlide-1+heroImages.length)%heroImages.length;updateHero();}
 document.getElementById("next-slide").onclick=()=>{currentSlide=(currentSlide+1)%heroImages.length;updateHero();}
 setInterval(()=>{currentSlide=(currentSlide+1)%heroImages.length;updateHero();},5000);
 updateHero();
 
-// Render Products
+// Render products filtered for Ladies Innerwear
 function renderProducts(){
   const grid=document.getElementById("product-grid");
   grid.innerHTML="";
@@ -119,10 +118,8 @@ function renderProducts(){
       <h3>${p.name}</h3>
       <p>INR ${p.priceAfterDiscount}</p>
       <div class="actions">
-        <button onclick="addToCart(p)" style="background:#d6336c;">Add To Cart</button>
-        <a href="${p.whatsapp}" target="_blank" style="background:#25D366;">Order WhatsApp</a>
-        <button onclick="editProduct(${p.id})" style="background:#ffa500;">Edit</button>
-        <button onclick="deleteProduct(${p.id})" style="background:#ff0000;">Delete</button>
+        <button onclick="addToCart(p)">Add To Cart</button>
+        <a href="${p.whatsapp}" target="_blank">Order WhatsApp</a>
       </div>
     `;
     grid.appendChild(div);
@@ -131,7 +128,7 @@ function renderProducts(){
   document.getElementById("next-page").disabled=currentPage*perPage>=filtered.length;
 }
 
-// Pagination & Search
+// Pagination
 document.getElementById("prev-page").onclick=()=>{if(currentPage>1)currentPage--;renderProducts();}
 document.getElementById("next-page").onclick=()=>{currentPage++;renderProducts();}
 document.getElementById("search-bar").oninput=()=>{currentPage=1;renderProducts();}
@@ -155,27 +152,6 @@ document.getElementById("order-all-whatsapp").onclick=()=>{
   cart.forEach(p=>msg+=`${p.name} - INR ${p.priceAfterDiscount} x ${p.qty}%0A`);
   window.open(`https://wa.me/971565870093?text=${msg}`,"_blank");
 };
-
-// Edit/Delete functions
-function editProduct(id){
-  const p = products.find(pr => pr.id === id);
-  if(!p) return;
-  const newName = prompt("Enter product name:", p.name);
-  if(newName) p.name = newName;
-  const newPrice = prompt("Enter price:", p.priceINR);
-  if(newPrice) p.priceINR = parseFloat(newPrice);
-  const newDiscount = prompt("Enter discount %:", p.discount);
-  if(newDiscount) p.discount = parseFloat(newDiscount);
-  p.priceAfterDiscount = (p.priceINR*(1-p.discount/100)).toFixed(2);
-  renderProducts();
-}
-function deleteProduct(id){
-  const index = products.findIndex(p => p.id === id);
-  if(index !== -1 && confirm("Are you sure to delete this product?")){
-    products.splice(index,1);
-    renderProducts();
-  }
-}
 
 renderProducts();
 </script>
