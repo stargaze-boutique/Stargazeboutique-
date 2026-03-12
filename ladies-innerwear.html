@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stargaze Boutique - Ladies Innerwear Collection</title>
+<title>Stargaze Boutique - Ladies Innerwear</title>
 <style>
 body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
 a{text-decoration:none;color:inherit;}
@@ -42,13 +42,13 @@ header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bo
 </head>
 <body>
 
-<header>🛍️ Stargaze Boutique - Ladies Innerwear Collection</header>
+<header>🛍️ Stargaze Boutique - Ladies Innerwear</header>
 
-<input type="text" id="search-bar" placeholder="Search Innerwear...">
+<input type="text" id="search-bar" placeholder="Search Ladies Innerwear...">
 
 <!-- Hero Slider -->
 <div id="hero">
-  <img src="https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Mega+Sale" alt="Slide 1">
+  <img src="https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Collection" alt="Slide 1">
   <button class="hero-arrow" id="prev-slide">&#10094;</button>
   <button class="hero-arrow" id="next-slide">&#10095;</button>
   <div class="hero-indicators"></div>
@@ -75,22 +75,16 @@ header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bo
   </div>
 </div>
 
+<script src="products.js"></script>
 <script>
-// Sample Ladies Innerwear products
-let products = [
-  {id:1, name:"Cotton Bra Set", category:"Innerwear", priceINR:1200, discount:5, stock:10, images:["https://via.placeholder.com/250x300?text=Cotton+Bra+Set"], whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Cotton Bra Set"},
-  {id:2, name:"Silk Nighty", category:"Innerwear", priceINR:1500, discount:10, stock:8, images:["https://via.placeholder.com/250x300?text=Silk+Nighty"], whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Silk Nighty"},
-];
-products.forEach(p=>p.priceAfterDiscount=(p.priceINR*(1-p.discount/100)).toFixed(2));
-
 let currentPage=1, perPage=6, cart=[];
 let currentSlide=0;
-const heroImages = [
-  "https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Mega+Sale",
-  "https://via.placeholder.com/1200x400?text=New+Innerwear+Collection"
+const heroImages=[
+  "https://via.placeholder.com/1200x400?text=Ladies+Innerwear+Collection",
+  "https://via.placeholder.com/1200x400?text=New+Arrivals"
 ];
 
-// Hero slider
+// Hero Slider
 const heroImg=document.querySelector("#hero img");
 const indicators=document.querySelector(".hero-indicators");
 function renderIndicators(){
@@ -102,18 +96,18 @@ function renderIndicators(){
     indicators.appendChild(span);
   });
 }
-function updateHero(){ heroImg.src=heroImages[currentSlide]; renderIndicators(); }
+function updateHero(){ heroImg.src=heroImages[currentSlide]; renderIndicators();}
 document.getElementById("prev-slide").onclick=()=>{currentSlide=(currentSlide-1+heroImages.length)%heroImages.length;updateHero();}
 document.getElementById("next-slide").onclick=()=>{currentSlide=(currentSlide+1)%heroImages.length;updateHero();}
 setInterval(()=>{currentSlide=(currentSlide+1)%heroImages.length;updateHero();},5000);
 updateHero();
 
-// Render products
+// Render Products
 function renderProducts(){
   const grid=document.getElementById("product-grid");
   grid.innerHTML="";
   const search=document.getElementById("search-bar").value.toLowerCase();
-  const filtered=products.filter(p=>p.name.toLowerCase().includes(search));
+  const filtered=products.filter(p=>p.category==="Ladies Innerwear" && p.name.toLowerCase().includes(search));
   const start=(currentPage-1)*perPage;
   filtered.slice(start,start+perPage).forEach(p=>{
     const div=document.createElement("div");
@@ -137,12 +131,12 @@ function renderProducts(){
   document.getElementById("next-page").disabled=currentPage*perPage>=filtered.length;
 }
 
-// Pagination
+// Pagination & Search
 document.getElementById("prev-page").onclick=()=>{if(currentPage>1)currentPage--;renderProducts();}
 document.getElementById("next-page").onclick=()=>{currentPage++;renderProducts();}
 document.getElementById("search-bar").oninput=()=>{currentPage=1;renderProducts();}
 
-// Cart
+// Cart functions
 function addToCart(product){
   if(product.stock<=0)return alert("Out of stock!");
   const exist=cart.find(c=>c.id===product.id);
@@ -162,7 +156,7 @@ document.getElementById("order-all-whatsapp").onclick=()=>{
   window.open(`https://wa.me/971565870093?text=${msg}`,"_blank");
 };
 
-// Edit/Delete
+// Edit/Delete functions
 function editProduct(id){
   const p = products.find(pr => pr.id === id);
   if(!p) return;
@@ -185,5 +179,6 @@ function deleteProduct(id){
 
 renderProducts();
 </script>
+
 </body>
 </html>
