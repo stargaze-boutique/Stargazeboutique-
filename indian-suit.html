@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargaze Boutique - Indian Suit Collection</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
+a{text-decoration:none;color:inherit;}
+header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bold;text-align:center;}
+#search-bar{padding:8px 12px;border-radius:6px;border:1px solid #ccc;width:60%;max-width:400px;margin:10px auto;display:block;}
+/* Hero slider */
+#hero{position:relative;overflow:hidden;margin:10px auto;max-width:1200px;border-radius:12px;}
+#hero img{width:100%;border-radius:12px;transition:0.5s;}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.4);color:white;border:none;padding:10px;border-radius:50%;cursor:pointer;font-size:18px;z-index:10;}
+#prev-slide{left:10px;} #next-slide{right:10px;}
+.hero-indicators{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:5px;}
+.hero-indicators span{width:12px;height:12px;background:white;border-radius:50%;cursor:pointer;opacity:0.5;}
+.hero-indicators .active{opacity:1;background:#d6336c;}
+/* Products */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;padding:15px;}
+.product-card{text-align:center;border:1px solid #eee;padding:10px;border-radius:12px;background:white;position:relative;transition:0.3s;overflow:hidden;}
+.product-card:hover{box-shadow:0 6px 18px rgba(0,0,0,0.15);}
+.product-card img{width:100%;border-radius:12px;cursor:pointer;transition: transform 0.3s ease;}
+.product-card img:hover{transform:scale(1.05);}
+.badge{position:absolute;top:10px;left:10px;background:#ff3e6c;color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:bold;}
+.out-stock{top:35px;background:#888;}
+.actions{display:flex;justify-content:center;gap:5px;margin-top:5px;}
+.actions button,.actions a{padding:6px 12px;border:none;border-radius:6px;color:white;transition:0.3s;}
+.actions button{cursor:pointer;}
+.actions a{display:inline-block;}
+/* Pagination */
+.pagination{display:flex;justify-content:center;gap:10px;margin:15px;}
+.pagination button{padding:8px 14px;border-radius:6px;border:none;background:#d6336c;color:white;cursor:pointer;}
+.pagination button:disabled{background:#aaa;cursor:not-allowed;}
+/* Cart */
+#cart-counter{position:fixed;top:20px;right:20px;background:#d6336c;color:white;padding:10px 15px;border-radius:50px;cursor:pointer;z-index:999;}
+#cart-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;}
+#cart-modal .modal-content{background:white;padding:20px;border-radius:12px;width:90%;max-width:500px;max-height:80%;overflow:auto;position:relative;}
+#close-cart{position:absolute;top:10px;right:10px;background:#d6336c;color:white;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<header>🛍️ Stargaze Boutique - Indian Suit Collection</header>
+
+<input type="text" id="search-bar" placeholder="Search Indian Suits...">
+
+<!-- Hero Slider -->
+<div id="hero">
+  <img src="https://via.placeholder.com/1200x400?text=Indian+Suit+Mega+Sale" alt="Slide 1">
+  <button class="hero-arrow" id="prev-slide">&#10094;</button>
+  <button class="hero-arrow" id="next-slide">&#10095;</button>
+  <div class="hero-indicators"></div>
+</div>
+
+<!-- Product Grid -->
+<div class="product-grid" id="product-grid"></div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button id="prev-page">Previous</button>
+  <button id="next-page">Next</button>
+</div>
+
+<!-- Cart -->
+<div id="cart-counter">🛒 0</div>
+<div id="cart-modal">
+  <div class="modal-content">
+    <button id="close-cart">X</button>
+    <h2 style="color:#d6336c;">Your Cart</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total" style="font-weight:bold;margin-top:10px;"></p>
+    <button id="order-all-whatsapp" style="margin-top:10px;background:#25D366;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Order All via WhatsApp</button>
+  </div>
+</div>
+
+<script>
+// Sample Indian Suit products
+let products = [
+  {id:1, name:"Red Georgette Suit", category:"Indian Suit", priceINR:2200, discount:10, stock:10, images:["https://via.placeholder.com/250x300?text=Red+Georgette+Suit"], whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Red Georgette Suit"},
+  {id:2, name:"Blue Cotton Suit", category:"Indian Suit", priceINR:1800, discount:5, stock:8, images:["https://via.placeholder.com/250x300?text=Blue+Cotton+Suit"], whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Blue Cotton Suit"},
+];
+products.forEach(p=>p.priceAfterDiscount=(p.priceINR*(1-p.discount/100)).toFixed(2));
+
+let currentPage=1, perPage=6, cart=[];
+let currentSlide=0;
+const heroImages = [
+  "https://via.placeholder.com/1200x400?text=Indian+Suit+Mega+Sale",
+  "https://via.placeholder.com/1200x400?text=New+Indian+Suit+Collection"
+];
+
+// Hero slider
+const heroImg=document.querySelector("#hero img");
+const indicators=document.querySelector(".hero-indicators");
+function renderIndicators(){
+  indicators.innerHTML="";
+  heroImages.forEach((_,i)=>{
+    const span=document.createElement("span");
+    span.className=i===currentSlide?"active":"";
+    span.onclick=()=>{currentSlide=i;updateHero();};
+    indicators.appendChild(span);
+  });
+}
+function updateHero(){ heroImg.src=heroImages[currentSlide]; renderIndicators(); }
+document.getElementById("prev-slide").onclick=()=>{currentSlide=(currentSlide-1+heroImages.length)%heroImages.length;updateHero();}
+document.getElementById("next-slide").onclick=()=>{currentSlide=(currentSlide+1)%heroImages.length;updateHero();}
+setInterval(()=>{currentSlide=(currentSlide+1)%heroImages.length;updateHero();},5000);
+updateHero();
+
+// Render products
+function renderProducts(){
+  const grid=document.getElementById("product-grid");
+  grid.innerHTML="";
+  const search=document.getElementById("search-bar").value.toLowerCase();
+  const filtered=products.filter(p=>p.name.toLowerCase().includes(search));
+  const start=(currentPage-1)*perPage;
+  filtered.slice(start,start+perPage).forEach(p=>{
+    const div=document.createElement("div");
+    div.className="product-card";
+    div.innerHTML=`
+      ${p.discount>0?`<div class="badge">${p.discount}% OFF</div>`:''}
+      ${p.stock<=0?`<div class="badge out-stock">Out of Stock</div>`:''}
+      <img src="${p.images[0]}" onclick="addToCart(p)">
+      <h3>${p.name}</h3>
+      <p>INR ${p.priceAfterDiscount}</p>
+      <div class="actions">
+        <button onclick="addToCart(p)" style="background:#d6336c;">Add To Cart</button>
+        <a href="${p.whatsapp}" target="_blank" style="background:#25D366;">Order WhatsApp</a>
+        <button onclick="editProduct(${p.id})" style="background:#ffa500;">Edit</button>
+        <button onclick="deleteProduct(${p.id})" style="background:#ff0000;">Delete</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+  document.getElementById("prev-page").disabled=currentPage===1;
+  document.getElementById("next-page").disabled=currentPage*perPage>=filtered.length;
+}
+
+// Pagination
+document.getElementById("prev-page").onclick=()=>{if(currentPage>1)currentPage--;renderProducts();}
+document.getElementById("next-page").onclick=()=>{currentPage++;renderProducts();}
+document.getElementById("search-bar").oninput=()=>{currentPage=1;renderProducts();}
+
+// Cart
+function addToCart(product){
+  if(product.stock<=0)return alert("Out of stock!");
+  const exist=cart.find(c=>c.id===product.id);
+  if(exist){if(product.stock>exist.qty)exist.qty++; else return alert("Stock limit reached!");}
+  else cart.push({...product,qty:1});
+  product.stock--;
+  updateCartCounter();
+  renderProducts();
+}
+function updateCartCounter(){document.getElementById("cart-counter").textContent=`🛒 ${cart.reduce((a,b)=>a+b.qty,0)}`;}
+document.getElementById("cart-counter").onclick=()=>{renderCart();document.getElementById("cart-modal").style.display="flex";}
+document.getElementById("close-cart").onclick=()=>{document.getElementById("cart-modal").style.display="none";}
+document.getElementById("order-all-whatsapp").onclick=()=>{
+  if(cart.length===0)return alert("Cart empty!");
+  let msg="Hi, I want to order:%0A";
+  cart.forEach(p=>msg+=`${p.name} - INR ${p.priceAfterDiscount} x ${p.qty}%0A`);
+  window.open(`https://wa.me/971565870093?text=${msg}`,"_blank");
+};
+
+// Edit/Delete
+function editProduct(id){
+  const p = products.find(pr => pr.id === id);
+  if(!p) return;
+  const newName = prompt("Enter product name:", p.name);
+  if(newName) p.name = newName;
+  const newPrice = prompt("Enter price:", p.priceINR);
+  if(newPrice) p.priceINR = parseFloat(newPrice);
+  const newDiscount = prompt("Enter discount %:", p.discount);
+  if(newDiscount) p.discount = parseFloat(newDiscount);
+  p.priceAfterDiscount = (p.priceINR*(1-p.discount/100)).toFixed(2);
+  renderProducts();
+}
+function deleteProduct(id){
+  const index = products.findIndex(p => p.id === id);
+  if(index !== -1 && confirm("Are you sure to delete this product?")){
+    products.splice(index,1);
+    renderProducts();
+  }
+}
+
+renderProducts();
+</script>
+</body>
+</html>
