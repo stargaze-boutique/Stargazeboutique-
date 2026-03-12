@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargaze Boutique - Contact Us</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
+header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bold;text-align:center;}
+.container{max-width:600px;margin:30px auto;background:white;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.1);}
+h2{color:#d6336c;text-align:center;margin-bottom:20px;}
+input, textarea{width:100%;padding:10px;margin:8px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
+button{background:#d6336c;color:white;padding:12px 20px;border:none;border-radius:6px;cursor:pointer;width:100%;font-size:16px;}
+button:hover{opacity:0.9;}
+.info{margin-top:20px;text-align:center;}
+.info p{margin:5px;}
+</style>
+</head>
+<body>
+
+<header>🛍️ Stargaze Boutique - Contact Us</header>
+
+<div class="container">
+  <h2>Get In Touch</h2>
+  <form onsubmit="submitForm(event)">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+  <div class="info">
+    <p>📱 WhatsApp: <a href="https://wa.me/971565870093" target="_blank">+971 56 587 0093</a></p>
+    <p>📧 Email: <a href="mailto:info@stargazeboutique.com">info@stargazeboutique.com</a></p>
+    <p>📍 Location: Dubai, UAE</p>
+  </div>
+</div>
+
+<script>
+function submitForm(e){
+  e.preventDefault();
+  const name=document.getElementById("name").value;
+  const email=document.getElementById("email").value;
+  const message=document.getElementById("message").value;
+  const whatsappMessage = `Hi, I am ${name}. My email is ${email}. Message: ${message}`;
+  window.open(`https://wa.me/971565870093?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
+  alert("Your message is being sent via WhatsApp!");
+}
+</script>
+
+</body>
+</html>
