@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargaze Boutique - Home</title>
+<meta name="description" content="Shop professional Indian ethnic wear: Lehenga, Kurti, Saree, Gown collections with multi-currency support.">
+<style>
+body{margin:0;font-family:sans-serif;background:#f7f7f7;color:#333;}
+a{text-decoration:none;color:inherit;}
+header{background:#d6336c;color:white;padding:15px;font-size:28px;font-weight:bold;text-align:center;}
+nav{display:flex;justify-content:center;gap:20px;padding:10px;background:#fff;position:sticky;top:0;z-index:999;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+nav a{padding:8px 12px;border-radius:6px;transition:0.3s;}
+nav a:hover{background:#f0f0f0;}
+#promo-banner{background:#ff3e6c;color:white;text-align:center;padding:8px 0;font-weight:bold;animation:slideBanner 10s linear infinite;}
+@keyframes slideBanner{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+#currency-selector{position:fixed;top:20px;left:20px;padding:8px 12px;border-radius:6px;border:1px solid #ccc;z-index:999;background:#fff;}
+#cart-counter{position:fixed;top:20px;right:20px;background:#d6336c;color:white;padding:10px 15px;border-radius:50px;cursor:pointer;z-index:999;}
+.hero-slider{position:relative;width:100%;height:350px;overflow:hidden;margin-bottom:20px;}
+.hero-slide{width:100%;height:100%;position:absolute;top:0;left:0;transition:0.5s;opacity:0;}
+.hero-slide.active{opacity:1;}
+.hero-slide img{width:100%;height:100%;object-fit:cover;}
+.hero-links{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;}
+.hero-links button{padding:8px 12px;background:#d6336c;color:white;border:none;border-radius:6px;cursor:pointer;transition:0.3s;}
+.hero-links button:hover{background:#ff3e6c;}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;padding:15px;}
+.product-card{text-align:center;border:1px solid #eee;padding:10px;border-radius:12px;background:white;position:relative;transition:0.3s;overflow:hidden;}
+.product-card:hover{box-shadow:0 6px 18px rgba(0,0,0,0.15);}
+.product-card img{width:100%;border-radius:12px;cursor:pointer;transition: transform 0.3s;}
+.product-card img:hover{transform:scale(1.05);}
+.actions{display:flex;justify-content:center;gap:5px;margin-top:5px;}
+.actions button,.actions a{padding:6px 12px;border:none;border-radius:6px;color:white;transition:0.3s;}
+.actions button{cursor:pointer;background:#d6336c;}
+.actions button:hover{background:#ff3e6c;}
+.actions a{display:inline-flex;align-items:center;gap:5px;background:#25D366;color:white;}
+.actions a:hover{opacity:0.8;}
+.pagination{display:flex;justify-content:center;gap:10px;margin:15px;}
+.pagination button{padding:8px 14px;border-radius:6px;border:none;background:#d6336c;color:white;cursor:pointer;}
+.pagination button:disabled{background:#aaa;cursor:not-allowed;}
+.newsletter{background:#d6336c;color:white;text-align:center;padding:20px;margin-top:30px;}
+.newsletter input{padding:10px;width:40%;border-radius:6px;border:none;margin-right:10px;}
+.newsletter button{padding:10px 15px;border-radius:6px;border:none;background:#25D366;color:white;cursor:pointer;}
+footer{background:#333;color:white;text-align:center;padding:20px;margin-top:30px;}
+footer a{color:white;margin:0 5px;}
+@media(max-width:768px){nav{flex-wrap:wrap;} .hero-links{flex-wrap:wrap;} .newsletter input{width:70%;}}
+</style>
+</head>
+<body>
+
+<div id="promo-banner">🎉 Up to 30% Festive Sale | Free Shipping Across India on Orders Above ₹5000</div>
+<header>🛍️ Stargaze Boutique</header>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="lehenga.html">Lehenga</a>
+<a href="kurti.html">Kurti</a>
+<a href="kurti-set.html">Kurti Set</a>
+<a href="saree.html">Saree</a>
+<a href="gown.html">Gown</a>
+<a href="pakistan-suit.html">Pakistan Suit</a>
+<a href="indian-suit.html">Indian Suit</a>
+<a href="ladies-innerwear.html">Ladies Innerwear</a>
+</nav>
+
+<!-- Hero Slider -->
+<div class="hero-slider" id="hero-slider">
+  <div class="hero-slide active"><img src="images/hero-home1.jpg" alt="Shop Ethnic Wear"></div>
+  <div class="hero-slide"><img src="images/hero-home2.jpg" alt="Festive Collection"></div>
+  <div class="hero-slide"><img src="images/hero-home3.jpg" alt="New Arrivals"></div>
+  <div class="hero-links">
+    <button onclick="filterCategory('Lehenga')">Lehenga</button>
+    <button onclick="filterCategory('Kurti')">Kurti</button>
+    <button onclick="filterCategory('Saree')">Saree</button>
+    <button onclick="filterCategory('Gown')">Gown</button>
+  </div>
+</div>
+
+<select id="currency-selector">
+<option value="INR" selected>₹ INR</option>
+<option value="AED">Dhs AED</option>
+<option value="USD">$ USD</option>
+<option value="EUR">€ EUR</option>
+<option value="GBP">£ GBP</option>
+</select>
+
+<h2 style="text-align:center;margin-top:20px;">Featured Products</h2>
+<div class="product-grid" id="product-grid"></div>
+
+<div class="pagination">
+<button id="prev-page">Previous</button>
+<button id="next-page">Next</button>
+</div>
+
+<div id="cart-counter">🛒 0</div>
+<div id="whatsapp-float" onclick="openWhatsApp()"><img src="images/whatsapp-icon.png" alt="WhatsApp"></div>
+
+<!-- Reviews Carousel -->
+<h2 style="text-align:center;margin-top:30px;">Customer Reviews</h2>
+<div class="reviews-carousel" id="reviews-carousel">
+  <div>⭐️⭐️⭐️⭐️⭐️ <p>Beautiful products! Fast delivery.</p></div>
+  <div>⭐️⭐️⭐️⭐️ <p>Excellent quality.</p></div>
+  <div>⭐️⭐️⭐️⭐️⭐️ <p>Very satisfied with my purchase.</p></div>
+</div>
+
+<div class="newsletter">
+<h2>Subscribe to our Newsletter</h2>
+<input type="email" placeholder="Enter your email">
+<button>Subscribe</button>
+</div>
+
+<footer>
+<p>© 2026 Stargaze Boutique | Follow us:</p>
+<a href="#">Instagram</a> | <a href="#">Facebook</a> | <a href="#">WhatsApp</a>
+</footer>
+
+<script>
+// ===== Products & Cart =====
+let products=[], cart=[], currentPage=1, perPage=6, currency="INR";
+const rates={INR:1,AED:0.044,USD:0.012,EUR:0.011,GBP:0.0097};
+const symbols={INR:"₹",AED:"Dhs",USD:"$",EUR:"€",GBP:"£"};
+
+// ===== Sample Products =====
+products = [
+{id:1,name:"Red Lehenga",category:"Lehenga",priceINR:2500,discount:15,stock:10,images:["images/product-lehenga1.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Red Lehenga"},
+{id:2,name:"Blue Kurti",category:"Kurti",priceINR:1200,discount:10,stock:15,images:["images/product-kurti1.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Blue Kurti"},
+{id:3,name:"Green Saree",category:"Saree",priceINR:1800,discount:5,stock:8,images:["images/product-saree1.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Green Saree"},
+{id:4,name:"Black Gown",category:"Gown",priceINR:3200,discount:20,stock:5,images:["images/product-gown1.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Black Gown"},
+{id:5,name:"Pink Lehenga",category:"Lehenga",priceINR:2700,discount:10,stock:7,images:["images/product-lehenga2.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Pink Lehenga"},
+{id:6,name:"Yellow Kurti",category:"Kurti",priceINR:900,discount:5,stock:12,images:["images/product-kurti2.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Yellow Kurti"},
+{id:7,name:"Orange Saree",category:"Saree",priceINR:2000,discount:0,stock:6,images:["images/product-saree2.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order Orange Saree"},
+{id:8,name:"White Gown",category:"Gown",priceINR:3500,discount:15,stock:4,images:["images/product-gown2.jpg"],whatsapp:"https://wa.me/971565870093?text=Hi, I want to order White Gown"}
+];
+
+function renderProducts(){
+const grid=document.getElementById("product-grid");
+grid.innerHTML="";
+const start=(currentPage-1)*perPage;
+products.slice(start,start+perPage).forEach(p=>{
+const price=(p.priceINR*rates[currency]*(1-p.discount/100)).toFixed(2);
+const symbol=symbols[currency];
+const div=document.createElement("div");
+div.className="product-card";
+div.innerHTML=`<img src='${p.images[0]}' alt='${p.name}'>
+<h3>${p.name}</h3>
+<p>${symbol} ${price}${p.discount>0?` <span style='text-decoration:line-through'>${symbol} ${(p.priceINR*rates[currency]).toFixed(2)}</span>`:''}</p>
+<div class='actions'>
+<button onclick="addToCart(${p.id})">Add To Cart</button>
+<a href='${p.whatsapp}' target='_blank'>WhatsApp</a>
+</div>`;
+grid.appendChild(div);
+});
+}
+renderProducts();
+document.getElementById("currency-selector").onchange=(e)=>{currency=e.target.value;renderProducts();};
+
+// Cart
+function addToCart(id){
+const product=products.find(p=>p.id===id);
+if(!product || product.stock<=0){alert("Out of stock!");return;}
+const item=cart.find(c=>c.id===id);
+if(item){if(item.qty<product.stock)item.qty++; else {alert("Stock limit reached!"); return;}}
+else cart.push({...product,qty:1});
+product.stock--; updateCartCounter(); renderProducts();
+}
+function updateCartCounter(){document.getElementById("cart-counter").textContent=`🛒 ${cart.reduce((a,b)=>a+b.qty,0)}`;}
+document.getElementById("cart-counter").onclick=()=>{alert("Cart functionality can be added here");};
+
+// Hero Slider
+let slides=document.querySelectorAll(".hero-slide"),slideIndex=0;
+function showSlide(index){slides.forEach(s=>s.classList.remove("active"));slides[index].classList.add("active");}
+showSlide(slideIndex);
+setInterval(()=>{slideIndex=(slideIndex+1)%slides.length; showSlide(slideIndex);},4000);
+
+// WhatsApp
+function openWhatsApp(){window.open("https://wa.me/971565870093?text=Hi, I want to order","_blank");}
+</script>
+
+</body>
+</html>
