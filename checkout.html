@@ -57,11 +57,11 @@ let cartList = document.getElementById("cartList");
 let totalPrice = 0;
 cart.forEach((item,i)=>{
     let li = document.createElement("li");
-    li.innerText = `${i+1}. ${item.name} - $${item.price}`;
+    li.innerText = `${i+1}. ${item.name} - ₹${item.price}`;
     cartList.appendChild(li);
     totalPrice += item.price;
 });
-document.getElementById("totalPrice").innerText = "Total: $" + totalPrice;
+document.getElementById("totalPrice").innerText = "Total: ₹" + totalPrice;
 
 function placeOrderWhatsApp(){
     let name = document.getElementById("name").value;
@@ -75,9 +75,9 @@ function placeOrderWhatsApp(){
 
     let message = "Hello, I want to order:\n";
     cart.forEach((item,i)=>{
-        message += `${i+1}. ${item.name} - $${item.price}\n`;
+        message += `${i+1}. ${item.name} - ₹${item.price}\n`;
     });
-    message += `\nTotal: $${totalPrice}\n\nCustomer Details:\nName: ${name}\nPhone: ${phoneNumber}\nAddress: ${address}`;
+    message += `\nTotal: ₹${totalPrice}\n\nCustomer Details:\nName: ${name}\nPhone: ${phoneNumber}\nAddress: ${address}`;
 
     let waNumber = "971XXXXXXXXX"; // Replace with your WhatsApp number
     window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`);
@@ -86,7 +86,7 @@ function placeOrderWhatsApp(){
     localStorage.removeItem("cart");
     cart = [];
     cartList.innerHTML = "";
-    document.getElementById("totalPrice").innerText = "Total: $0";
+    document.getElementById("totalPrice").innerText = "Total: ₹0";
     alert("Order sent! Cart cleared.");
 }
 </script>
