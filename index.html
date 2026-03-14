@@ -8,8 +8,9 @@
         body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
         header { background:#ff4081; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
         header a { color:#fff; text-decoration:none; margin-left:15px; }
-        .hero { width:100%; overflow:hidden; position:relative; }
-        .hero img { width:100%; height:auto; border-radius:8px; }
+        .hero { width:100%; overflow:hidden; position:relative; border-radius:8px; height:300px; }
+        .hero img { width:100%; height:100%; display:none; position:absolute; top:0; left:0; object-fit:cover; transition: opacity 1s; }
+        .hero img.active { display:block; opacity:1; }
         .categories { display:flex; overflow-x:auto; margin:20px 0; gap:10px; padding:0 10px; }
         .categories button { flex:none; padding:10px 15px; border:none; background:#ff4081; color:#fff; border-radius:6px; cursor:pointer; }
         .categories button:hover { background:#e73370; }
@@ -33,8 +34,9 @@
     </nav>
 </header>
 
-<div class="hero">
+<div class="hero" id="hero">
     <img src="images/banner1.jpg" alt="Banner 1">
+    <img src="images/banner2.jpg" alt="Banner 2">
 </div>
 
 <div class="categories">
@@ -47,9 +49,7 @@
     <button>Ladies Innerwear</button>
 </div>
 
-<div class="product-grid" id="productGrid">
-    <!-- Product cards will be inserted here by JavaScript -->
-</div>
+<div class="product-grid" id="productGrid"></div>
 
 <footer>
     © 2026 Stargaze Boutique. All rights reserved.
@@ -97,6 +97,44 @@ function orderWhatsAppHome(index){
     let product = products[index];
     let message = `Hello, I want to order: ${product.name} - $${product.price}`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+}
+
+// Hero slider
+const heroImages = document.querySelectorAll("#hero img");
+let currentIndex = 0;
+
+function showSlide(index){
+    heroImages.forEach((img,i)=>{
+        img.classList.remove("active");
+        if(i===index) img.classList.add("active");
+    });
+}
+
+function nextSlide(){
+    currentIndex = (currentIndex + 1) % heroImages.length;
+    showSlide(currentIndex);
+}
+
+// Auto-rotate every 5 seconds
+showSlide(currentIndex);
+setInterval(nextSlide, 5000);
+
+// Swipe for touch devices
+let startX = 0;
+let endX = 0;
+const hero = document.getElementById("hero");
+
+hero.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; });
+hero.addEventListener("touchend", (e) => { endX = e.changedTouches[0].clientX; handleSwipe(); });
+
+function handleSwipe(){
+    if(endX - startX > 50){ // swipe right
+        currentIndex = (currentIndex - 1 + heroImages.length) % heroImages.length;
+        showSlide(currentIndex);
+    } else if(startX - endX > 50){ // swipe left
+        currentIndex = (currentIndex + 1) % heroImages.length;
+        showSlide(currentIndex);
+    }
 }
 </script>
 
