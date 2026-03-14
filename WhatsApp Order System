@@ -1,0 +1,15 @@
+<script>
+
+function buyWhatsApp(name,price){
+
+let message =
+"Hello I want to buy: " + name + " Price ₹" + price
+
+let url =
+"https://wa.me/919000000000?text="+encodeURIComponent(message)
+
+window.open(url)
+
+}
+
+</script>
