@@ -62,13 +62,13 @@ cart.forEach((item,index)=>{
 const tr = document.createElement("tr");
 tr.innerHTML = `
 <td>${item.name}</td>
-<td>$${item.price}</td>
+<td>₹${item.price}</td>
 <td><button onclick="removeItem(${index})">Remove</button></td>
 `;
 cartTableBody.appendChild(tr);
 total += item.price;
 });
-totalPriceEl.innerText = "Total: $" + total;
+totalPriceEl.innerText = "Total: ₹" + total;
 }
 
 function removeItem(index){
