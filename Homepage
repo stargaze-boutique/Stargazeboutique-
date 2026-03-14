@@ -58,16 +58,18 @@ footer { background:#333; color:#fff; text-align:center; padding:15px; margin-to
 </footer>
 
 <script>
-// Products array
+// --------------------
+// Products array (₹ currency)
+// --------------------
 const products = [
-{ name: "Lehenga ABC", price: 120, image: "images/lehenga1.jpg" },
-{ name: "Lehenga XYZ", price: 150, image: "images/lehenga2.jpg" },
-{ name: "Kurti Blue", price: 80, image: "images/kurti1.jpg" },
-{ name: "Saree Pink", price: 100, image: "images/saree1.jpg" },
-{ name: "Gown Elegant", price: 200, image: "images/gown1.jpg" },
-{ name: "Pakistan Suit Classic", price: 110, image: "images/pakistan_suit1.jpg" },
-{ name: "India Suit Modern", price: 130, image: "images/india_suit1.jpg" },
-{ name: "Ladies Innerwear Set", price: 50, image: "images/innerwear1.jpg" }
+  { name: "Lehenga ABC", price: 1200, image: "images/lehenga1.jpg", category: "Lehenga" },
+  { name: "Lehenga XYZ", price: 1500, image: "images/lehenga2.jpg", category: "Lehenga" },
+  { name: "Kurti Blue", price: 800, image: "images/kurti1.jpg", category: "Kurti" },
+  { name: "Saree Pink", price: 1000, image: "images/saree1.jpg", category: "Saree" },
+  { name: "Gown Elegant", price: 2000, image: "images/gown1.jpg", category: "Gown" },
+  { name: "Pakistan Suit Classic", price: 1100, image: "images/pakistan_suit1.jpg", category: "Pakistan Suit" },
+  { name: "India Suit Modern", price: 1300, image: "images/india_suit1.jpg", category: "India Suit" },
+  { name: "Ladies Innerwear Set", price: 500, image: "images/innerwear1.jpg", category: "Ladies Innerwear" }
 ];
 
 // Display products
@@ -78,7 +80,7 @@ products.forEach((product,index)=>{
     card.innerHTML = `
         <img src="${product.image}" alt="${product.name}">
         <h3>${product.name}</h3>
-        <p>$${product.price}</p>
+        <p>₹${product.price}</p>
         <button onclick="addToCartHome(${index})">Add to Cart</button>
         <button onclick="orderWhatsAppHome(${index})">Order via WhatsApp</button>
     `;
@@ -92,10 +94,11 @@ function addToCartHome(index){
     localStorage.setItem("cart", JSON.stringify(cart));
     alert("Product added to cart!");
 }
+
 function orderWhatsAppHome(index){
     let phone = "971XXXXXXXXX";
     let product = products[index];
-    let message = `Hello, I want to order: ${product.name} - $${product.price}`;
+    let message = `Hello, I want to order: ${product.name} - ₹${product.price}`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
 }
 
