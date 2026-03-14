@@ -1,142 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Stargaze Boutique</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
-        header { background:#ff4081; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
-        header a { color:#fff; text-decoration:none; margin-left:15px; }
-        .hero { width:100%; overflow:hidden; position:relative; border-radius:8px; height:300px; }
-        .hero img { width:100%; height:100%; display:none; position:absolute; top:0; left:0; object-fit:cover; transition: opacity 1s; }
-        .hero img.active { display:block; opacity:1; }
-        .categories { display:flex; overflow-x:auto; margin:20px 0; gap:10px; padding:0 10px; }
-        .categories button { flex:none; padding:10px 15px; border:none; background:#ff4081; color:#fff; border-radius:6px; cursor:pointer; }
-        .categories button:hover { background:#e73370; }
-        .product-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; padding:0 10px; }
-        .product-card { border:1px solid #ddd; padding:15px; border-radius:8px; text-align:center; }
-        .product-card img { width:100%; border-radius:8px; }
-        .product-card button { margin-top:10px; background:#ff4081; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
-        .product-card button:hover { background:#e73370; }
-        footer { background:#333; color:#fff; text-align:center; padding:15px; margin-top:20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargaze Boutique</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+}
+
+/* Header */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+border-bottom:1px solid #eee;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+letter-spacing:3px;
+}
+
+nav a{
+margin-left:20px;
+text-decoration:none;
+color:black;
+font-size:14px;
+}
+
+/* Hero Banner */
+
+.hero{
+position:relative;
+height:500px;
+}
+
+.hero img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.hero-text{
+position:absolute;
+bottom:40px;
+left:40px;
+color:white;
+}
+
+.hero-text h1{
+font-size:40px;
+}
+
+.hero-text a{
+background:black;
+color:white;
+padding:12px 20px;
+text-decoration:none;
+}
+
+/* Product Grid */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:40px;
+}
+
+.product img{
+width:100%;
+}
+
+.product h3{
+font-size:16px;
+}
+
+.product p{
+color:#666;
+}
+
+/* WhatsApp Button */
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:12px 18px;
+border-radius:30px;
+text-decoration:none;
+}
+
+/* Footer */
+
+footer{
+text-align:center;
+padding:40px;
+border-top:1px solid #eee;
+}
+
+</style>
 </head>
+
 <body>
 
-<header>
-    <h1>Stargaze Boutique</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="shop.html">Shop</a>
-        <a href="cart.html">Cart</a>
-        <a href="admin.html">Admin</a>
-    </nav>
+<header class="header">
+
+<div class="logo">STARGAZE</div>
+
+<nav>
+<a href="shop.html">Shop</a>
+<a href="sarees.html">Sarees</a>
+<a href="kurti.html">Kurti</a>
+<a href="cart.html">Cart</a>
+</nav>
+
 </header>
 
-<div class="hero" id="hero">
-    <img src="images/banner1.jpg" alt="Banner 1">
-    <img src="images/banner2.jpg" alt="Banner 2">
+
+<section class="hero">
+
+<img src="images/banner1.jpg">
+
+<div class="hero-text">
+<h1>NEW COLLECTION</h1>
+<a href="shop.html">SHOP NOW</a>
 </div>
 
-<div class="categories">
-    <button>Lehenga</button>
-    <button>Kurti</button>
-    <button>Saree</button>
-    <button>Gown</button>
-    <button>Pakistan Suit</button>
-    <button>India Suit</button>
-    <button>Ladies Innerwear</button>
+</section>
+
+
+<section class="products">
+
+<div class="product">
+<img src="images/lehenga1.jpg">
+<h3>Pink Lehenga</h3>
+<p>₹2500</p>
 </div>
 
-<div class="product-grid" id="productGrid"></div>
+<div class="product">
+<img src="images/kurti1.jpg">
+<h3>Blue Kurti</h3>
+<p>₹1200</p>
+</div>
+
+<div class="product">
+<img src="images/saree1.jpg">
+<h3>Designer Saree</h3>
+<p>₹1800</p>
+</div>
+
+<div class="product">
+<img src="images/gown1.jpg">
+<h3>Party Gown</h3>
+<p>₹3000</p>
+</div>
+
+</section>
+
+
+<a href="https://wa.me/919000000000" class="whatsapp">WhatsApp</a>
+
 
 <footer>
-    © 2026 Stargaze Boutique. All rights reserved.
+© 2026 Stargaze Boutique
 </footer>
 
-<script>
-// Products array
-const products = [
-    { name: "Lehenga ABC", price: 120, image: "images/lehenga1.jpg" },
-    { name: "Lehenga XYZ", price: 150, image: "images/lehenga2.jpg" },
-    { name: "Kurti Blue", price: 80, image: "images/kurti1.jpg" },
-    { name: "Saree Pink", price: 100, image: "images/saree1.jpg" },
-    { name: "Gown Elegant", price: 200, image: "images/gown1.jpg" },
-    { name: "Pakistan Suit Classic", price: 110, image: "images/pakistan_suit1.jpg" },
-    { name: "India Suit Modern", price: 130, image: "images/india_suit1.jpg" },
-    { name: "Ladies Innerwear Set", price: 50, image: "images/innerwear1.jpg" }
-];
-
-// Display products
-const productGrid = document.getElementById("productGrid");
-products.forEach((product,index)=>{
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}">
-        <h3 class="product-name">${product.name}</h3>
-        <p class="product-price">$${product.price}</p>
-        <button onclick="addToCartHome(${index})">Add to Cart</button>
-        <button onclick="orderWhatsAppHome(${index})">Order via WhatsApp</button>
-    `;
-    productGrid.appendChild(card);
-});
-
-// Add to cart
-function addToCartHome(index){
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(products[index]);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Product added to cart!");
-}
-
-// WhatsApp order
-function orderWhatsAppHome(index){
-    let phone = "971XXXXXXXXX"; // Replace with your WhatsApp number
-    let product = products[index];
-    let message = `Hello, I want to order: ${product.name} - $${product.price}`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
-}
-
-// Hero slider
-const heroImages = document.querySelectorAll("#hero img");
-let currentIndex = 0;
-
-function showSlide(index){
-    heroImages.forEach((img,i)=>{
-        img.classList.remove("active");
-        if(i===index) img.classList.add("active");
-    });
-}
-
-function nextSlide(){
-    currentIndex = (currentIndex + 1) % heroImages.length;
-    showSlide(currentIndex);
-}
-
-// Auto-rotate every 5 seconds
-showSlide(currentIndex);
-setInterval(nextSlide, 5000);
-
-// Swipe for touch devices
-let startX = 0;
-let endX = 0;
-const hero = document.getElementById("hero");
-
-hero.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; });
-hero.addEventListener("touchend", (e) => { endX = e.changedTouches[0].clientX; handleSwipe(); });
-
-function handleSwipe(){
-    if(endX - startX > 50){ // swipe right
-        currentIndex = (currentIndex - 1 + heroImages.length) % heroImages.length;
-        showSlide(currentIndex);
-    } else if(startX - endX > 50){ // swipe left
-        currentIndex = (currentIndex + 1) % heroImages.length;
-        showSlide(currentIndex);
-    }
-}
-</script>
 
 </body>
 </html>
