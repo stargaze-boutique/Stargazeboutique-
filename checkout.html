@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stargaze Boutique - Checkout</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
+        header { background:#ff4081; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
+        header a { color:#fff; text-decoration:none; margin-left:15px; }
+        .container { width:90%; margin:auto; padding:20px; }
+        input { width:100%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid #ccc; }
+        button { background:#ff4081; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; }
+        button:hover { background:#e73370; }
+        .cart-summary { margin-top:20px; }
+        footer { background:#333; color:#fff; text-align:center; padding:15px; margin-top:20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Stargaze Boutique</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Checkout</h2>
+    <div>
+        <label>Name:</label>
+        <input type="text" id="name" placeholder="Your Name">
+        <label>Phone:</label>
+        <input type="text" id="phone" placeholder="Phone Number">
+        <label>Address:</label>
+        <input type="text" id="address" placeholder="Address">
+    </div>
+
+    <div class="cart-summary">
+        <h3>Cart Summary</h3>
+        <ul id="cartList"></ul>
+        <p id="totalPrice"></p>
+    </div>
+
+    <button onclick="placeOrderWhatsApp()">Place Order via WhatsApp</button>
+</div>
+
+<footer>
+    © 2026 Stargaze Boutique. All rights reserved.
+</footer>
+
+<script>
+// Display cart items
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartList = document.getElementById("cartList");
+let totalPrice = 0;
+cart.forEach((item,i)=>{
+    let li = document.createElement("li");
+    li.innerText = `${i+1}. ${item.name} - $${item.price}`;
+    cartList.appendChild(li);
+    totalPrice += item.price;
+});
+document.getElementById("totalPrice").innerText = "Total: $" + totalPrice;
+
+function placeOrderWhatsApp(){
+    let name = document.getElementById("name").value;
+    let phoneNumber = document.getElementById("phone").value;
+    let address = document.getElementById("address").value;
+
+    if(!name || !phoneNumber || !address){
+        alert("Please fill all details!");
+        return;
+    }
+
+    let message = "Hello, I want to order:\n";
+    cart.forEach((item,i)=>{
+        message += `${i+1}. ${item.name} - $${item.price}\n`;
+    });
+    message += `\nTotal: $${totalPrice}\n\nCustomer Details:\nName: ${name}\nPhone: ${phoneNumber}\nAddress: ${address}`;
+
+    let waNumber = "971XXXXXXXXX"; // Replace with your WhatsApp number
+    window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`);
+}
+</script>
+
+</body>
+</html>
