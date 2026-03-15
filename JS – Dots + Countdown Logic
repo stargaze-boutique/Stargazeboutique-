@@ -1,0 +1,56 @@
+// Hero Images Array
+const heroImages = ["images/hero1.jpg","images/hero2.jpg","images/hero3.jpg"];
+let currentSlide = 0;
+
+// Countdown Timer (example: 2 hours from now)
+const countdownEnd = new Date().getTime() + 2*60*60*1000;
+
+function updateCountdown(){
+  const now = new Date().getTime();
+  let distance = countdownEnd - now;
+
+  if(distance < 0){
+    document.getElementById("countdownTimer").innerText = "00:00:00";
+    return;
+  }
+
+  const hours = Math.floor(distance / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+  document.getElementById("countdownTimer").innerText =
+    `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+}
+
+setInterval(updateCountdown, 1000);
+
+// Render Slide + Dots
+function renderSlide(index){
+  if(index < 0) currentSlide = heroImages.length - 1;
+  else if(index >= heroImages.length) currentSlide = 0;
+  else currentSlide = index;
+
+  const heroImage = document.getElementById("heroImage");
+  heroImage.src = heroImages[currentSlide];
+
+  // Dots
+  const dotsContainer = document.getElementById("slideDots");
+  dotsContainer.innerHTML = '';
+  heroImages.forEach((_,i)=>{
+    const dot = document.createElement('span');
+    dot.classList.toggle('active', i===currentSlide);
+    dot.onclick = ()=> renderSlide(i);
+    dotsContainer.appendChild(dot);
+  });
+}
+
+// Navigation Buttons
+function nextSlide(){ renderSlide(currentSlide+1); }
+function prevSlide(){ renderSlide(currentSlide-1); }
+
+// Auto Slide
+setInterval(()=> nextSlide(), 5000);
+
+// Initial Render
+renderSlide(0);
+updateCountdown();
