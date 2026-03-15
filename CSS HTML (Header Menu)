@@ -1,0 +1,32 @@
+.menu{
+display:flex;
+gap:20px;
+background:#111;
+padding:15px;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+}
+
+.dropdown{
+position:relative;
+}
+
+.mega-menu{
+display:none;
+position:absolute;
+background:white;
+padding:20px;
+grid-template-columns:repeat(3,150px);
+gap:10px;
+}
+
+.dropdown:hover .mega-menu{
+display:grid;
+}
+
+.mega-menu a{
+color:black;
+}
