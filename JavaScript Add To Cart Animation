@@ -1,0 +1,19 @@
+function addToCart(id){
+
+const product = products.find(p => p.id === id);
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+cart.push(product);
+
+localStorage.setItem("cart", JSON.stringify(cart));
+
+const cartIcon = document.getElementById("cartIcon");
+
+cartIcon.classList.add("cart-animate");
+
+setTimeout(()=>{
+cartIcon.classList.remove("cart-animate");
+},400);
+
+}
