@@ -1,0 +1,17 @@
+let end=new Date().getTime()+3600000;
+
+function countdown(){
+
+let now=new Date().getTime();
+
+let diff=end-now;
+
+let min=Math.floor(diff/60000);
+
+let sec=Math.floor((diff%60000)/1000);
+
+document.getElementById("timer").innerText=min+"m "+sec+"s";
+
+}
+
+setInterval(countdown,1000);
