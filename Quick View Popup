@@ -1,0 +1,11 @@
+<div id="quickView" class="popup">
+
+<div class="popup-content">
+
+<span onclick="closeQuick()">✖</span>
+
+<div id="quickProduct"></div>
+
+</div>
+
+</div>
