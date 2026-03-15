@@ -2,96 +2,47 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Stargaze Boutique - Cart</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
-header { background:#ff4081; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
-header a { color:#fff; text-decoration:none; margin-left:15px; }
-.container { width:90%; margin:auto; padding:20px; }
-table { width:100%; border-collapse: collapse; margin-top:20px; }
-th, td { border:1px solid #ddd; padding:10px; text-align:center; }
-th { background:#f8f8f8; }
-button { background:#ff4081; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
-button:hover { background:#e73370; }
-#clearCartPage { background:#ff1744; margin-bottom:10px; }
-footer { background:#333; color:#fff; text-align:center; padding:15px; margin-top:20px; }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - Stargaze Boutique</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-<h1>Stargaze Boutique</h1>
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="cart.html">Cart</a>
-</nav>
+<header class="header">
+  <div class="logo">STARGAZE</div>
+  <nav>
+    <a href="shop.html">Shop</a>
+    <a href="cart.html">Cart</a>
+  </nav>
 </header>
 
-<div class="container">
-<h2>Your Cart</h2>
-<button id="clearCartPage">Clear Cart</button>
-<table id="cartTable">
-<thead>
-<tr>
-<th>Product</th>
-<th>Price</th>
-<th>Remove</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-<p id="totalPrice"></p>
-<button onclick="checkoutWhatsApp()">Checkout via WhatsApp</button>
-</div>
+<h1>Your Cart</h1>
+<div id="cartContainer"></div>
 
-<footer>
-© 2026 Stargaze Boutique. All rights reserved.
-</footer>
+<a href="https://wa.me/919000000000" class="whatsapp">Checkout via WhatsApp</a>
 
+<script src="products.js"></script>
 <script>
-// Load cart
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-const cartTableBody = document.querySelector("#cartTable tbody");
-const totalPriceEl = document.getElementById("totalPrice");
-
-function displayCart(){
-cartTableBody.innerHTML = "";
-let total = 0;
-cart.forEach((item,index)=>{
-const tr = document.createElement("tr");
-tr.innerHTML = `
-<td>${item.name}</td>
-<td>₹${item.price}</td>
-<td><button onclick="removeItem(${index})">Remove</button></td>
-`;
-cartTableBody.appendChild(tr);
-total += item.price;
-});
-totalPriceEl.innerText = "Total: ₹" + total;
+const cartContainer = document.getElementById("cartContainer");
+function renderCart(){
+  cartContainer.innerHTML = "";
+  cart.forEach((p,i)=>{
+    cartContainer.innerHTML += `
+      <div>
+        <img src="${p.image}" width="100">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+        <button onclick="removeCart(${i})">Remove</button>
+      </div>`;
+  });
 }
-
-function removeItem(index){
-cart.splice(index,1);
-localStorage.setItem("cart", JSON.stringify(cart));
-displayCart();
+function removeCart(i){
+  cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
 }
-
-function checkoutWhatsApp(){
-if(cart.length===0){ alert("Your cart is empty!"); return; }
-window.location.href = "checkout.html";
-}
-
-// Clear Cart button
-document.getElementById("clearCartPage").addEventListener("click", ()=>{
-localStorage.removeItem("cart");
-cart = [];
-displayCart();
-alert("Cart cleared!");
-});
-
-// Initial display
-displayCart();
+renderCart();
 </script>
 
 </body>
