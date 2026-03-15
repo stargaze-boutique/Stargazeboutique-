@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stargaze Boutique – Product Detail</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Flash Sale Banner -->
+  <div id="flashSaleBanner">🔥 Flash Sale! Up to 50% OFF – Limited Time!</div>
+
+  <!-- Product Detail Section -->
+  <div id="productDetail">
+    <div id="productImages">
+      <img id="mainProductImage" src="" alt="Product Image">
+      <div id="productThumbnails"></div>
+    </div>
+
+    <div id="productInfo">
+      <h2 id="productName"></h2>
+      <p id="productPrice"></p>
+      <p id="productCategory"></p>
+      <p id="productBadge"></p>
+      <p id="productStock"></p>
+
+      <label>Sizes:</label>
+      <select id="
