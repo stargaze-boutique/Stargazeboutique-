@@ -1,0 +1,7 @@
+<div class="hero-slider">
+  <img id="heroImage" src="images/hero1.jpg" alt="Banner" width="100%">
+  <div class="hero-buttons">
+    <button onclick="prevSlide()">❮</button>
+    <button onclick="nextSlide()">❯</button>
+  </div>
+</div>
