@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stargaze Boutique – Cart</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Flash Sale Banner -->
+  <div id="flashSaleBanner">🔥 Flash Sale! Up to 50% OFF – Limited Time!</div>
+
+  <h2>My Cart</h2>
+  <div id="cartContainer"></div>
+
+  <!-- Mini Cart -->
+  <div id="cartIcon">
+    🛒 <span id="cartCount">0</span>
+    <div id="miniCartDropdown">
+      <h4>My Cart</h4>
+      <div id="miniCartItems"></div>
+      <p>Total: ₹<span id="miniCartTotal">0</span></p>
+      <a href="cart.html">Go to Cart</a>
+    </div>
+  </div>
+
+  <!-- Newsletter Popup -->
+  <div id="newsletterPopup">
+    <span onclick="closeNewsletter()">❌</span>
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Get updates & exclusive discounts!</p>
+    <input type="email" id="newsletterEmail" placeholder="Your Email"><br><br>
+    <button onclick="subscribeNewsletter()">Subscribe</button>
+  </div>
+
+  <!-- JS Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/lazyload.js"></script>
+  <script src="js/newsletter.js"></script>
+
+  <script>
+    function renderCart(){
+      const cartContainer = document.getElementById('cartContainer');
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cartContainer.innerHTML = '';
+
+      if(cart.length === 0){
+        cartContainer.innerHTML = '<p>Your cart is empty!</p>';
+        updateMiniCart();
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((p,i)=>{
+        total += parseFloat(p.price);
+        cartContainer.innerHTML += `
+          <div class="cart-item fade-in">
+            <img src="${p.image}" alt="${p.name}" width="100">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+            <button onclick="removeFromCart(${i})">Remove</button>
+          </div>
+        `;
+      });
+
+      cartContainer.innerHTML += `<h3>Total: ₹${total}</h3>`;
+      updateMiniCart();
+    }
+
+    function removeFromCart(index){
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index,1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function updateMiniCart(){
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const miniCartItems = document.getElementById('miniCartItems');
+      const miniCartTotal = document.getElementById('miniCartTotal');
+      const cartCount = document.getElementById('cartCount');
+
+      miniCartItems.innerHTML = '';
+      let total = 0;
+
+      cart.forEach(p=>{
+        total += parseFloat(p.price);
+        miniCartItems.innerHTML += `<p>${p.name} - ₹${p.price}</p>`;
+      });
+
+      miniCartTotal.innerText = total;
+      cartCount.innerText = cart.length;
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>
