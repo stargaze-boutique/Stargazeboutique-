@@ -1,10 +1,10 @@
-let products = JSON.parse(localStorage.getItem("products")) || [
+let products = [
 
 {
 id:1,
 name:"Designer Lehenga",
 price:2999,
-image:"images/lehenga1.jpg",
+image:"images/products/product1.jpg",
 category:"Lehenga",
 badge:"Sale",
 stock:10,
@@ -13,12 +13,12 @@ sizes:["S","M","L","XL","XXL"]
 
 {
 id:2,
-name:"Stylish Kurti",
+name:"Party Wear Kurti",
 price:999,
-image:"images/kurti1.jpg",
+image:"images/products/product2.jpg",
 category:"Kurti",
 badge:"New",
-stock:8,
+stock:5,
 sizes:["S","M","L","XL"]
 }
 
