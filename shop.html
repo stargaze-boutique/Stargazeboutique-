@@ -3,117 +3,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Stargaze Boutique - Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop - Stargaze Boutique</title>
 <style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
-header { background:#ff4081; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
-header a { color:#fff; text-decoration:none; margin-left:15px; }
-.categories { display:flex; overflow-x:auto; margin:20px 0; gap:10px; padding:0 10px; }
-.categories button { flex:none; padding:10px 15px; border:none; background:#ff4081; color:#fff; border-radius:6px; cursor:pointer; }
-.categories button:hover { background:#e73370; }
-.product-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; padding:0 10px; }
-.product-card { border:1px solid #ddd; padding:15px; border-radius:8px; text-align:center; }
-.product-card img { width:100%; border-radius:8px; }
-.product-card button { margin-top:10px; background:#ff4081; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
-.product-card button:hover { background:#e73370; }
-#clearCartShop { background:#ff1744; color:white; margin:10px 0; padding:8px 12px; border:none; border-radius:6px; cursor:pointer; }
-footer { background:#333; color:#fff; text-align:center; padding:15px; margin-top:20px; }
+body{margin:0;font-family:Arial;}
+.header{display:flex;justify-content:space-between;padding:20px 40px;border-bottom:1px solid #eee;}
+.logo{font-size:24px;font-weight:bold;}
+nav a{margin-left:20px;text-decoration:none;color:black;}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;padding:30px;}
+.product{text-align:center;}
+.product img{width:100%;}
+button{background:black;color:white;padding:10px 15px;border:none;margin-top:10px;cursor:pointer;}
+.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:12px 20px;border-radius:30px;text-decoration:none;}
 </style>
 </head>
 <body>
 
-<header>
-<h1>Stargaze Boutique</h1>
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="cart.html">Cart</a>
-<a href="admin.html">Admin</a>
-</nav>
+<header class="header">
+  <div class="logo">STARGAZE</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="cart.html">Cart</a>
+    <a href="admin.html">Admin</a>
+  </nav>
 </header>
 
-<div class="categories">
-<button onclick="filterCategory('Lehenga')">Lehenga</button>
-<button onclick="filterCategory('Kurti')">Kurti</button>
-<button onclick="filterCategory('Saree')">Saree</button>
-<button onclick="filterCategory('Gown')">Gown</button>
-<button onclick="filterCategory('Pakistan Suit')">Pakistan Suit</button>
-<button onclick="filterCategory('India Suit')">India Suit</button>
-<button onclick="filterCategory('Ladies Innerwear')">Ladies Innerwear</button>
-<button onclick="filterCategory('All')">All</button>
-</div>
+<h1 style="text-align:center;margin-top:20px;">All Products</h1>
 
-<button id="clearCartShop">Clear Cart</button>
+<section class="products" id="products"></section>
 
-<div class="product-grid" id="productGrid"></div>
-
-<footer>
-© 2026 Stargaze Boutique. All rights reserved.
-</footer>
+<a href="https://wa.me/919000000000" class="whatsapp">WhatsApp</a>
 
 <script>
-// --------------------
-// Products array (₹ currency)
-// --------------------
 const products = [
-  { name: "Lehenga ABC", price: 1200, image: "images/lehenga1.jpg", category: "Lehenga" },
-  { name: "Lehenga XYZ", price: 1500, image: "images/lehenga2.jpg", category: "Lehenga" },
-  { name: "Kurti Blue", price: 800, image: "images/kurti1.jpg", category: "Kurti" },
-  { name: "Saree Pink", price: 1000, image: "images/saree1.jpg", category: "Saree" },
-  { name: "Gown Elegant", price: 2000, image: "images/gown1.jpg", category: "Gown" },
-  { name: "Pakistan Suit Classic", price: 1100, image: "images/pakistan_suit1.jpg", category: "Pakistan Suit" },
-  { name: "India Suit Modern", price: 1300, image: "images/india_suit1.jpg", category: "India Suit" },
-  { name: "Ladies Innerwear Set", price: 500, image: "images/innerwear1.jpg", category: "Ladies Innerwear" }
+  {id:1, name:"Pink Lehenga", price:2500, image:"images/lehenga1.jpg", category:"Lehenga"},
+  {id:2, name:"Blue Kurti", price:1200, image:"images/kurti1.jpg", category:"Kurti"},
+  {id:3, name:"Designer Saree", price:1800, image:"images/saree1.jpg", category:"Saree"},
+  {id:4, name:"Party Gown", price:3000, image:"images/gown1.jpg", category:"Gown"},
+  {id:5, name:"Pakistan Suit", price:2000, image:"images/pakistan_suit1.jpg", category:"Suit"}
 ];
 
-const productGrid = document.getElementById("productGrid");
-
-// Display products
-function displayProducts(list){
-productGrid.innerHTML = "";
-list.forEach((product,index)=>{
-const card = document.createElement("div");
-card.className = "product-card";
-card.innerHTML = `
-<img src="${product.image}" alt="${product.name}">
-<h3>${product.name}</h3>
-<p>₹${product.price}</p>
-<button onclick="addToCartShop(${index})">Add to Cart</button>
-<button onclick="orderWhatsAppShop(${index})">Order via WhatsApp</button>
-`;
-productGrid.appendChild(card);
+const container = document.getElementById("products");
+products.forEach(p=>{
+  container.innerHTML += `
+  <div class="product">
+    <img src="${p.image}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p>₹${p.price}</p>
+    <button onclick="addCart(${p.id})">Add to Cart</button>
+    <button onclick="buyWhatsApp('${p.name}',${p.price})">Buy WhatsApp</button>
+  </div>`;
 });
+
+let cart = [];
+function addCart(id){
+  const product = products.find(p=>p.id===id);
+  cart.push(product);
+  alert(product.name + " added to cart");
 }
-
-// Initial display
-displayProducts(products);
-
-// Filter categories
-function filterCategory(cat){
-if(cat==="All") displayProducts(products);
-else displayProducts(products.filter(p=>p.category===cat));
+function buyWhatsApp(name,price){
+  const msg = "Hello I want to buy "+name+" Price ₹"+price;
+  window.open("https://wa.me/919000000000?text="+encodeURIComponent(msg));
 }
-
-// Cart functions
-function addToCartShop(index){
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-cart.push(products[index]);
-localStorage.setItem("cart", JSON.stringify(cart));
-alert("Product added to cart!");
-}
-
-function orderWhatsAppShop(index){
-let phone = "971XXXXXXXXX";
-let product = products[index];
-let message = `Hello, I want to order: ${product.name} - ₹${product.price}`;
-window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
-}
-
-// Clear cart
-document.getElementById("clearCartShop").addEventListener("click", ()=>{
-localStorage.removeItem("cart");
-alert("Cart cleared!");
-});
 </script>
 
 </body>
