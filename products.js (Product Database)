@@ -1,7 +1,25 @@
-const products = [
-  {id:1, name:"Pink Lehenga", price:2500, image:"images/lehenga1.jpg", category:"Lehenga"},
-  {id:2, name:"Blue Kurti", price:1200, image:"images/kurti1.jpg", category:"Kurti"},
-  {id:3, name:"Designer Saree", price:1800, image:"images/saree1.jpg", category:"Saree"},
-  {id:4, name:"Party Gown", price:3000, image:"images/gown1.jpg", category:"Gown"},
-  {id:5, name:"Pakistan Suit", price:2000, image:"images/pakistan_suit1.jpg", category:"Suit"}
+let products = JSON.parse(localStorage.getItem("products")) || [
+
+{
+id:1,
+name:"Designer Lehenga",
+price:2999,
+image:"images/lehenga1.jpg",
+category:"Lehenga",
+badge:"Sale",
+stock:10,
+sizes:["S","M","L","XL","XXL"]
+},
+
+{
+id:2,
+name:"Stylish Kurti",
+price:999,
+image:"images/kurti1.jpg",
+category:"Kurti",
+badge:"New",
+stock:8,
+sizes:["S","M","L","XL"]
+}
+
 ];
