@@ -1,0 +1,27 @@
+function renderRecent(){
+
+const container = document.getElementById("recentProducts");
+
+const recent = JSON.parse(localStorage.getItem("recent")) || [];
+
+container.innerHTML="";
+
+recent.forEach(p=>{
+
+container.innerHTML += `
+
+<div class="product">
+
+<img src="${p.image}">
+
+<h3>${p.name}</h3>
+
+<p>₹${p.price}</p>
+
+</div>
+
+`;
+
+});
+
+}
