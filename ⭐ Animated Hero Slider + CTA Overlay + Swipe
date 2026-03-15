@@ -1,0 +1,12 @@
+<div class="hero-slider">
+  <img id="heroImage" src="images/hero1.jpg" alt="Banner">
+  <div class="hero-overlay">
+    <h1>Summer Collection 2026</h1>
+    <p>Up to 50% OFF</p>
+    <button onclick="window.location.href='shop.html'">Shop Now</button>
+  </div>
+  <div class="hero-buttons">
+    <button onclick="prevSlide()">❮</button>
+    <button onclick="nextSlide()">❯</button>
+  </div>
+</div>
