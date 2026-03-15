@@ -1,71 +1,76 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop - Stargaze Boutique</title>
-<style>
-body{margin:0;font-family:Arial;}
-.header{display:flex;justify-content:space-between;padding:20px 40px;border-bottom:1px solid #eee;}
-.logo{font-size:24px;font-weight:bold;}
-nav a{margin-left:20px;text-decoration:none;color:black;}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;padding:30px;}
-.product{text-align:center;}
-.product img{width:100%;}
-button{background:black;color:white;padding:10px 15px;border:none;margin-top:10px;cursor:pointer;}
-.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:12px 20px;border-radius:30px;text-decoration:none;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stargaze Boutique – Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
 
-<header class="header">
-  <div class="logo">STARGAZE</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="cart.html">Cart</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
+  <!-- Flash Sale Banner -->
+  <div id="flashSaleBanner">🔥 Flash Sale! Up to 50% OFF – Limited Time!</div>
 
-<h1 style="text-align:center;margin-top:20px;">All Products</h1>
+  <!-- Category Filters -->
+  <div id="categoryFilters">
+    <button onclick="filterCategory('All')">All</button>
+    <button onclick="filterCategory('Lehenga')">Lehenga</button>
+    <button onclick="filterCategory('Kurti')">Kurti</button>
+    <button onclick="filterCategory('Saree')">Saree</button>
+    <button onclick="filterCategory('Gown')">Gown</button>
+    <button onclick="filterCategory('Suit')">Suit</button>
+  </div>
 
-<section class="products" id="products"></section>
+  <!-- Sort Dropdown -->
+  <div id="filterSort">
+    <select id="sortSelect" onchange="sortProducts(this.value)">
+      <option value="default">Sort By</option>
+      <option value="priceLow">Price: Low to High</option>
+      <option value="priceHigh">Price: High to Low</option>
+      <option value="nameAsc">Name: A-Z</option>
+      <option value="nameDesc">Name: Z-A</option>
+    </select>
+  </div>
 
-<a href="https://wa.me/919000000000" class="whatsapp">WhatsApp</a>
+  <!-- Product Grid -->
+  <div id="productList"></div>
 
-<script>
-const products = [
-  {id:1, name:"Pink Lehenga", price:2500, image:"images/lehenga1.jpg", category:"Lehenga"},
-  {id:2, name:"Blue Kurti", price:1200, image:"images/kurti1.jpg", category:"Kurti"},
-  {id:3, name:"Designer Saree", price:1800, image:"images/saree1.jpg", category:"Saree"},
-  {id:4, name:"Party Gown", price:3000, image:"images/gown1.jpg", category:"Gown"},
-  {id:5, name:"Pakistan Suit", price:2000, image:"images/pakistan_suit1.jpg", category:"Suit"}
-];
+  <!-- Mini Cart -->
+  <div id="cartIcon">
+    🛒 <span id="cartCount">0</span>
+    <div id="miniCartDropdown">
+      <h4>My Cart</h4>
+      <div id="miniCartItems"></div>
+      <p>Total: ₹<span id="miniCartTotal">0</span></p>
+      <a href="cart.html">Go to Cart</a>
+    </div>
+  </div>
 
-const container = document.getElementById("products");
-products.forEach(p=>{
-  container.innerHTML += `
-  <div class="product">
-    <img src="${p.image}" alt="${p.name}">
-    <h3>${p.name}</h3>
-    <p>₹${p.price}</p>
-    <button onclick="addCart(${p.id})">Add to Cart</button>
-    <button onclick="buyWhatsApp('${p.name}',${p.price})">Buy WhatsApp</button>
-  </div>`;
-});
+  <!-- Quick View Popup -->
+  <div id="quickViewPopup">
+    <span onclick="closeQuickView()">❌</span>
+    <div id="quickViewContent"></div>
+  </div>
 
-let cart = [];
-function addCart(id){
-  const product = products.find(p=>p.id===id);
-  cart.push(product);
-  alert(product.name + " added to cart");
-}
-function buyWhatsApp(name,price){
-  const msg = "Hello I want to buy "+name+" Price ₹"+price;
-  window.open("https://wa.me/919000000000?text="+encodeURIComponent(msg));
-}
-</script>
+  <!-- Newsletter Popup -->
+  <div id="newsletterPopup">
+    <span onclick="closeNewsletter()">❌</span>
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Get updates & exclusive discounts!</p>
+    <input type="email" id="newsletterEmail" placeholder="Your Email"><br><br>
+    <button onclick="subscribeNewsletter()">Subscribe</button>
+  </div>
+
+  <!-- JS Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/quickview.js"></script>
+  <script src="js/filtersort.js"></script>
+  <script src="js/lazyload.js"></script>
+  <script src="js/newsletter.js"></script>
 
 </body>
 </html>
