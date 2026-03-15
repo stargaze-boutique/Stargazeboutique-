@@ -1,0 +1,25 @@
+function quickView(id){
+
+const p=products.find(x=>x.id===id);
+
+document.getElementById("quickProduct").innerHTML=`
+
+<img src="${p.image}" width="200">
+
+<h3>${p.name}</h3>
+
+<p>₹${p.price}</p>
+
+<button onclick="addToCart(${p.id})">Add To Cart</button>
+
+`;
+
+document.getElementById("quickView").style.display="block";
+
+}
+
+function closeQuick(){
+
+document.getElementById("quickView").style.display="none";
+
+}
