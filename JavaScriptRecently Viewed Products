@@ -1,0 +1,15 @@
+let viewed = JSON.parse(localStorage.getItem("recent")) || [];
+
+function addRecentlyViewed(product){
+
+viewed = viewed.filter(p => p.id !== product.id);
+
+viewed.unshift(product);
+
+if(viewed.length > 5){
+viewed.pop();
+}
+
+localStorage.setItem("recent", JSON.stringify(viewed));
+
+}
