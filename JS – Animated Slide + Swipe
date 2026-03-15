@@ -1,0 +1,37 @@
+const heroImages = [
+  "images/hero1.jpg",
+  "images/hero2.jpg",
+  "images/hero3.jpg"
+];
+
+let currentSlide = 0;
+const heroImage = document.getElementById("heroImage");
+
+function showSlide(index){
+  if(index < 0) currentSlide = heroImages.length - 1;
+  else if(index >= heroImages.length) currentSlide = 0;
+  else currentSlide = index;
+
+  heroImage.src = heroImages[currentSlide];
+  heroImage.classList.remove('active');
+  setTimeout(()=> heroImage.classList.add('active'), 50); // fade effect
+}
+
+// Buttons
+function nextSlide(){ showSlide(currentSlide + 1); }
+function prevSlide(){ showSlide(currentSlide - 1); }
+
+// Auto-slide every 5 seconds
+setInterval(()=>{ nextSlide(); }, 5000);
+
+// Swipe support for mobile
+let startX = 0;
+heroImage.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+heroImage.addEventListener('touchend', e => {
+  let endX = e.changedTouches[0].clientX;
+  if(startX - endX > 50) nextSlide();
+  else if(endX - startX > 50) prevSlide();
+});
+
+// Initial
+showSlide(0);
