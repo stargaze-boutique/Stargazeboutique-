@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stargaze Boutique – Wishlist</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Flash Sale Banner -->
+  <div id="flashSaleBanner">🔥 Flash Sale! Up to 50% OFF – Limited Time!</div>
+
+  <h2>My Wishlist</h2>
+  <div id="wishlistContainer"></div>
+
+  <!-- Mini Cart -->
+  <div id="cartIcon">
+    🛒 <span id="cartCount">0</span>
+    <div id="miniCartDropdown">
+      <h4>My Cart</h4>
+      <div id="miniCartItems"></div>
+      <p>Total: ₹<span id="miniCartTotal">0</span></p>
+      <a href="cart.html">Go to Cart</a>
+    </div>
+  </div>
+
+  <!-- Quick View Popup -->
+  <div id="quickViewPopup">
+    <span onclick="closeQuickView()">❌</span>
+    <div id="quickViewContent"></div>
+  </div>
+
+  <!-- Newsletter Popup -->
+  <div id="newsletterPopup">
+    <span onclick="closeNewsletter()">❌</span>
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Get updates & exclusive discounts!</p>
+    <input type="email" id="newsletterEmail" placeholder="Your Email"><br><br>
+    <button onclick="subscribeNewsletter()">Subscribe</button>
+  </div>
+
+  <!-- JS Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/quickview.js"></script>
+  <script src="js/lazyload.js"></script>
+  <script src="js/newsletter.js"></script>
+
+  <script>
+    // Render Wishlist Items
+    function renderWishlist(){
+      const wishlistContainer = document.getElementById('wishlistContainer');
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlistContainer.innerHTML = '';
+
+      if(wishlist.length === 0){
+        wishlistContainer.innerHTML = '<p>Your wishlist is empty!</p>';
+        return;
+      }
+
+      wishlist.forEach((p,i)=>{
+        wishlistContainer.innerHTML += `
+          <div class="wishlist-item fade-in">
+            <img src="${p.image}" alt="${p.name}" width="100">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+            <button onclick="addToCart(${p.id})">Add to Cart</button>
+            <button onclick="removeFromWishlist(${i})">Remove</button>
+          </div>
+        `;
+      });
+    }
+
+    function removeFromWishlist(index){
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlist.splice(index,1);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      renderWishlist();
+    }
+
+    renderWishlist();
+  </script>
+
+</body>
+</html>
