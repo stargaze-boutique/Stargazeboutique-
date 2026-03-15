@@ -1,0 +1,13 @@
+<div class="product">
+
+<img src="${p.image}" loading="lazy">
+
+<h3>${p.name}</h3>
+
+<p>₹${p.price}</p>
+
+<button onclick="addToCart(${p.id})">
+Add to Cart
+</button>
+
+</div>
