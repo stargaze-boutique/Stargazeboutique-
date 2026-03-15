@@ -1,0 +1,30 @@
+<header>
+
+<nav class="menu">
+
+<a href="index.html">Home</a>
+
+<div class="dropdown">
+
+<a href="shop.html">Shop ▾</a>
+
+<div class="mega-menu">
+
+<a href="lehenga.html">Lehenga</a>
+<a href="kurti.html">Kurti</a>
+<a href="sarees.html">Sarees</a>
+<a href="gown.html">Gown</a>
+<a href="indian-suit.html">Indian Suit</a>
+<a href="pakistan-suit.html">Pakistan Suit</a>
+
+</div>
+
+</div>
+
+<a href="wishlist.html">Wishlist</a>
+
+<a href="cart.html">Cart</a>
+
+</nav>
+
+</header>
