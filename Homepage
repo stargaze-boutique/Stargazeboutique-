@@ -13,14 +13,11 @@ nav a{margin-left:20px;text-decoration:none;color:black;}
 .hero img{width:100%;height:100%;object-fit:cover;}
 .hero-text{position:absolute;bottom:30px;left:30px;color:white;}
 .hero-text a{background:black;color:white;padding:10px 15px;text-decoration:none;}
-.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;padding:30px;}
-.cat img{width:100%;}
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;padding:30px;}
 .product{text-align:center;}
 .product img{width:100%;}
 button{background:black;color:white;padding:10px 15px;border:none;margin-top:10px;cursor:pointer;}
 .whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:12px 20px;border-radius:30px;text-decoration:none;}
-footer{text-align:center;padding:30px;border-top:1px solid #eee;}
 </style>
 </head>
 <body>
@@ -42,29 +39,13 @@ footer{text-align:center;padding:30px;border-top:1px solid #eee;}
   </div>
 </section>
 
-<section class="categories">
-  <div class="cat"><img src="images/lehenga1.jpg"><h3>Lehenga</h3></div>
-  <div class="cat"><img src="images/saree1.jpg"><h3>Sarees</h3></div>
-  <div class="cat"><img src="images/kurti1.jpg"><h3>Kurti</h3></div>
-  <div class="cat"><img src="images/gown1.jpg"><h3>Gown</h3></div>
-  <div class="cat"><img src="images/pakistan_suit1.jpg"><h3>Suit</h3></div>
-</section>
-
 <section class="products" id="products"></section>
 
 <a href="https://wa.me/919000000000" class="whatsapp">WhatsApp</a>
 
-<footer>© 2026 Stargaze Boutique</footer>
-
 <script>
-const products = [
-  {id:1, name:"Pink Lehenga", price:2500, image:"images/lehenga1.jpg", category:"Lehenga"},
-  {id:2, name:"Blue Kurti", price:1200, image:"images/kurti1.jpg", category:"Kurti"},
-  {id:3, name:"Designer Saree", price:1800, image:"images/saree1.jpg", category:"Saree"},
-  {id:4, name:"Party Gown", price:3000, image:"images/gown1.jpg", category:"Gown"},
-  {id:5, name:"Pakistan Suit", price:2000, image:"images/pakistan_suit1.jpg", category:"Suit"}
-];
-
+// Load products from localStorage or default
+let products = JSON.parse(localStorage.getItem("products")) || [];
 const container = document.getElementById("products");
 products.forEach(p=>{
   container.innerHTML += `
@@ -77,14 +58,15 @@ products.forEach(p=>{
   </div>`;
 });
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 function addCart(id){
-  const product = products.find(p=>p.id===id);
+  let product = products.find(p=>p.id===id);
   cart.push(product);
-  alert(product.name + " added to cart");
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert(product.name+" added to cart");
 }
 function buyWhatsApp(name,price){
-  const msg = "Hello I want to buy "+name+" Price ₹"+price;
+  let msg = "Hello I want to buy "+name+" Price ₹"+price;
   window.open("https://wa.me/919000000000?text="+encodeURIComponent(msg));
 }
 </script>
