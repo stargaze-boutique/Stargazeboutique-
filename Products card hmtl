@@ -1,0 +1,6 @@
+<div class="product-card">
+  <img src="images/product-images/product1.jpg" alt="Product Name">
+  <h3>Product Name</h3>
+  <p>₹1999</p>
+  <button>Add to Cart</button>
+</div>
