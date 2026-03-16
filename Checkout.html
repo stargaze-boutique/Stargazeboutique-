@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Stargaze Boutique V50</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/products.js"></script>
+  <script defer src="js/cart.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="images/logo/logo.png" alt="Stargaze Boutique Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CHECKOUT SECTION -->
+  <section class="checkout-section">
+    <h1>Checkout</h1>
+    <div class="checkout-container">
+      <!-- Billing Form -->
+      <form id="checkout-form">
+        <h2>Billing Information</h2>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required>
+
+        <label for="address">Address</label>
+        <textarea id="address" required></textarea>
+
+        <button type="submit">Place Order</button>
+      </form>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h2>Your Order</h2>
+        <div id="cart-items">
+          <!-- Cart items dynamically added -->
+        </div>
+        <h3>Total: <span id="cart-total">0 AED</span></h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div id="whatsapp-button">
+    <a href="https://wa.me/1234567890" target="_blank">
+      <img src="images/icons/whatsapp.png" alt="WhatsApp">
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Stargaze Boutique. All rights reserved.</p>
+    <nav>
+      <ul>
+        <li><a href="disclaimer.html">Privacy & Policy</a></li>
+        <li><a href="size-chart.html">Size Chart</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <script>
+    const cartContainer = document.getElementById("cart-items");
+    const cartTotalEl = document.getElementById("cart-total");
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      if(cart.length === 0) {
+        cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+        cartTotalEl.textContent = "0 AED";
+        return;
+      }
+
+      cartContainer.innerHTML = "";
+      let total = 0;
+
+      cart.forEach(item => {
+        const product = products.find(p => p.id === item.id);
+        if(!product) return;
+
+        const itemTotal = parseFloat(product.price) * item.quantity;
+        total += itemTotal;
+
+        const cartItemEl = document.createElement("div");
+        cartItemEl.classList.add("checkout-cart-item");
+        cartItemEl.innerHTML = `
+          <p>${product.name} x ${item.quantity}</p>
+          <p>${product.price}</p>
+        `;
+        cartContainer.appendChild(cartItemEl);
+      });
+
+      cartTotalEl.textContent = `${total} AED`;
+    }
+
+    renderCart();
+
+    // Checkout form submission
+    const checkoutForm = document.getElementById("checkout-form");
+    checkoutForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Thank you for your order! Your order details have been sent via WhatsApp.");
+      localStorage.removeItem("cart");
+      renderCart();
+      checkoutForm.reset();
+    });
+  </script>
+</body>
+</html>
