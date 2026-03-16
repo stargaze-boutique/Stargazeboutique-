@@ -3,74 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stargaze Boutique – Shop</title>
+  <title>Stargaze Boutique - Zara Style V50</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/premium-snippet.css">
+  <script defer src="js/main.js"></script>
+  <script defer src="js/products.js"></script>
+  <script defer src="js/whatsapp.js"></script>
 </head>
 <body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="images/logo/logo.png" alt="Stargaze Boutique Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- Flash Sale Banner -->
-  <div id="flashSaleBanner">🔥 Flash Sale! Up to 50% OFF – Limited Time!</div>
+  <!-- HERO BANNER -->
+  <section class="hero-banner">
+    <img src="images/hero/hero1.jpg" alt="Banner" class="hero-image">
+    <div class="hero-content">
+      <h1>New Zara-Style Collection</h1>
+      <p>Trendy, Elegant, Affordable</p>
+      <a href="shop.html" class="btn-primary">Shop Now</a>
+    </div>
+  </section>
 
-  <!-- Category Filters -->
-  <div id="categoryFilters">
-    <button onclick="filterCategory('All')">All</button>
-    <button onclick="filterCategory('Lehenga')">Lehenga</button>
-    <button onclick="filterCategory('Kurti')">Kurti</button>
-    <button onclick="filterCategory('Saree')">Saree</button>
-    <button onclick="filterCategory('Gown')">Gown</button>
-    <button onclick="filterCategory('Suit')">Suit</button>
+  <!-- FEATURED PRODUCTS -->
+  <section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="products-grid" id="featured-products">
+      <!-- Products will be dynamically inserted from products.js -->
+    </div>
+  </section>
+
+  <!-- ADS SECTION -->
+  <section class="ad-banner">
+    <img src="images/ads/ad1.jpg" alt="Ad Banner">
+  </section>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div id="whatsapp-button">
+    <a href="https://wa.me/1234567890" target="_blank">
+      <img src="images/icons/whatsapp.png" alt="WhatsApp">
+    </a>
   </div>
 
-  <!-- Sort Dropdown -->
-  <div id="filterSort">
-    <select id="sortSelect" onchange="sortProducts(this.value)">
-      <option value="default">Sort By</option>
-      <option value="priceLow">Price: Low to High</option>
-      <option value="priceHigh">Price: High to Low</option>
-      <option value="nameAsc">Name: A-Z</option>
-      <option value="nameDesc">Name: Z-A</option>
-    </select>
-  </div>
-
-  <!-- Product Grid -->
-  <div id="productList"></div>
-
-  <!-- Mini Cart -->
-  <div id="cartIcon">
-    🛒 <span id="cartCount">0</span>
-    <div id="miniCartDropdown">
-      <h4>My Cart</h4>
-      <div id="miniCartItems"></div>
-      <p>Total: ₹<span id="miniCartTotal">0</span></p>
-      <a href="cart.html">Go to Cart</a>
+  <!-- AI CHAT PLACEHOLDER -->
+  <div id="ai-chat">
+    <button id="ai-chat-toggle">Chat</button>
+    <div id="ai-chat-box">
+      <p>Welcome! How can we assist you today?</p>
     </div>
   </div>
 
-  <!-- Quick View Popup -->
-  <div id="quickViewPopup">
-    <span onclick="closeQuickView()">❌</span>
-    <div id="quickViewContent"></div>
-  </div>
-
-  <!-- Newsletter Popup -->
-  <div id="newsletterPopup">
-    <span onclick="closeNewsletter()">❌</span>
-    <h3>Subscribe to Our Newsletter</h3>
-    <p>Get updates & exclusive discounts!</p>
-    <input type="email" id="newsletterEmail" placeholder="Your Email"><br><br>
-    <button onclick="subscribeNewsletter()">Subscribe</button>
-  </div>
-
-  <!-- JS Scripts -->
-  <script src="js/products.js"></script>
-  <script src="js/render.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/quickview.js"></script>
-  <script src="js/filtersort.js"></script>
-  <script src="js/lazyload.js"></script>
-  <script src="js/newsletter.js"></script>
-
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Stargaze Boutique. All rights reserved.</p>
+    <nav>
+      <ul>
+        <li><a href="disclaimer.html">Privacy & Policy</a></li>
+        <li><a href="size-chart.html">Size Chart</a></li>
+      </ul>
+    </nav>
+  </footer>
 </body>
 </html>
