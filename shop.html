@@ -1,104 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop - Stargaze Boutique Zara Style V50</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/premium-snippet.css">
-  <script defer src="js/products.js"></script>
-  <script defer src="js/shop.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop - Stargazeboutique</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      <img src="images/logo/logo.png" alt="Stargaze Boutique Logo">
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html" class="active">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <!-- SHOP CATEGORIES -->
-  <section class="shop-categories">
-    <h2>Categories</h2>
-    <div class="category-buttons">
-      <button data-category="all" class="active">All</button>
-      <button data-category="lehenga">Lehenga</button>
-      <button data-category="gown">Gown</button>
-      <button data-category="kurti">Kurti</button>
-      <button data-category="kurti-set">Kurti Set</button>
-      <button data-category="plazzo-set">Plazzo Set</button>
-      <button data-category="saree">Saree</button>
-      <button data-category="indian-suit">Indian Suit</button>
-      <button data-category="pakistan-suit">Pakistan Suit</button>
-      <button data-category="ladies-innerwear">Ladies Innerwear</button>
-      <button data-category="nighty">Nighty</button>
-    </div>
-  </section>
+<header>
+  <img src="images/logo.png" alt="Stargazeboutique Logo" style="height:50px;">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="cart.html">Cart</a>
+    <a href="wishlist.html">Wishlist</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
-  <!-- PRODUCTS GRID -->
-  <section class="shop-products">
-    <h2>Products</h2>
-    <div class="products-grid" id="shop-products">
-      <!-- Products dynamically loaded from products.js -->
-    </div>
-  </section>
+<h1>Shop All Products</h1>
 
-  <!-- FLOATING WHATSAPP BUTTON -->
-  <div id="whatsapp-button">
-    <a href="https://wa.me/1234567890" target="_blank">
-      <img src="images/icons/whatsapp.png" alt="WhatsApp">
-    </a>
+<section class="product-grid">
+  <div class="product-card">
+    <img src="images/product-images/gown1.jpg" alt="Luxury Gown">
+    <h3>Luxury Gown</h3>
+    <p>Price: 299 AED</p>
+    <button>Add</button>
+    <button>Edit</button>
+    <button>Delete</button>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2026 Stargaze Boutique. All rights reserved.</p>
-    <nav>
-      <ul>
-        <li><a href="disclaimer.html">Privacy & Policy</a></li>
-        <li><a href="size-chart.html">Size Chart</a></li>
-      </ul>
-    </nav>
-  </footer>
+  <div class="product-card">
+    <img src="images/product-images/indiansuit1.jpg" alt="Indian Suit">
+    <h3>Indian Suit</h3>
+    <p>Price: 179 AED</p>
+    <button>Add</button>
+    <button>Edit</button>
+    <button>Delete</button>
+  </div>
 
-  <script>
-    const productsGrid = document.getElementById("shop-products");
-    const categoryButtons = document.querySelectorAll(".category-buttons button");
+  <div class="product-card">
+    <img src="images/product-images/pakisuit1.jpg" alt="Pakistani Suit">
+    <h3>Pakistani Suit</h3>
+    <p>Price: 189 AED</p>
+    <button>Add</button>
+    <button>Edit</button>
+    <button>Delete</button>
+  </div>
 
-    function displayProducts(category = "all") {
-      productsGrid.innerHTML = "";
-      const filtered = category === "all" ? products : products.filter(p => p.category === category);
-      filtered.forEach(product => {
-        const card = document.createElement("div");
-        card.classList.add("product-card");
-        card.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>${product.material}</p>
-          <p class="price">${product.price}</p>
-          <a href="cart.html" class="btn-primary">Add to Cart</a>
-        `;
-        productsGrid.appendChild(card);
-      });
-    }
+</section>
 
-    categoryButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        categoryButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        displayProducts(btn.dataset.category);
-      });
-    });
+<footer>
+  Stargazeboutique © 2026 | <a href="privacy.html">Privacy</a> | <a href="disclaimer.html">Disclaimer</a>
+</footer>
 
-    displayProducts(); // load all products on page load
-  </script>
 </body>
 </html>
