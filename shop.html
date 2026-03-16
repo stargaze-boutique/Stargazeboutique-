@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stargaze Boutique - Zara Style V50</title>
+  <title>Shop - Stargaze Boutique Zara Style V50</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/premium-snippet.css">
-  <script defer src="js/main.js"></script>
   <script defer src="js/products.js"></script>
-  <script defer src="js/whatsapp.js"></script>
+  <script defer src="js/shop.js"></script>
 </head>
 <body>
   <!-- HEADER -->
@@ -19,34 +18,37 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
+        <li><a href="shop.html" class="active">Shop</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- HERO BANNER -->
-  <section class="hero-banner">
-    <img src="images/hero/hero1.jpg" alt="Banner" class="hero-image">
-    <div class="hero-content">
-      <h1>New Zara-Style Collection</h1>
-      <p>Trendy, Elegant, Affordable</p>
-      <a href="shop.html" class="btn-primary">Shop Now</a>
+  <!-- SHOP CATEGORIES -->
+  <section class="shop-categories">
+    <h2>Categories</h2>
+    <div class="category-buttons">
+      <button data-category="all" class="active">All</button>
+      <button data-category="lehenga">Lehenga</button>
+      <button data-category="gown">Gown</button>
+      <button data-category="kurti">Kurti</button>
+      <button data-category="kurti-set">Kurti Set</button>
+      <button data-category="plazzo-set">Plazzo Set</button>
+      <button data-category="saree">Saree</button>
+      <button data-category="indian-suit">Indian Suit</button>
+      <button data-category="pakistan-suit">Pakistan Suit</button>
+      <button data-category="ladies-innerwear">Ladies Innerwear</button>
+      <button data-category="nighty">Nighty</button>
     </div>
   </section>
 
-  <!-- FEATURED PRODUCTS -->
-  <section class="featured-products">
-    <h2>Featured Products</h2>
-    <div class="products-grid" id="featured-products">
-      <!-- Products will be dynamically inserted from products.js -->
+  <!-- PRODUCTS GRID -->
+  <section class="shop-products">
+    <h2>Products</h2>
+    <div class="products-grid" id="shop-products">
+      <!-- Products dynamically loaded from products.js -->
     </div>
-  </section>
-
-  <!-- ADS SECTION -->
-  <section class="ad-banner">
-    <img src="images/ads/ad1.jpg" alt="Ad Banner">
   </section>
 
   <!-- FLOATING WHATSAPP BUTTON -->
@@ -54,14 +56,6 @@
     <a href="https://wa.me/1234567890" target="_blank">
       <img src="images/icons/whatsapp.png" alt="WhatsApp">
     </a>
-  </div>
-
-  <!-- AI CHAT PLACEHOLDER -->
-  <div id="ai-chat">
-    <button id="ai-chat-toggle">Chat</button>
-    <div id="ai-chat-box">
-      <p>Welcome! How can we assist you today?</p>
-    </div>
   </div>
 
   <!-- FOOTER -->
@@ -74,5 +68,37 @@
       </ul>
     </nav>
   </footer>
+
+  <script>
+    const productsGrid = document.getElementById("shop-products");
+    const categoryButtons = document.querySelectorAll(".category-buttons button");
+
+    function displayProducts(category = "all") {
+      productsGrid.innerHTML = "";
+      const filtered = category === "all" ? products : products.filter(p => p.category === category);
+      filtered.forEach(product => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.material}</p>
+          <p class="price">${product.price}</p>
+          <a href="cart.html" class="btn-primary">Add to Cart</a>
+        `;
+        productsGrid.appendChild(card);
+      });
+    }
+
+    categoryButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoryButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        displayProducts(btn.dataset.category);
+      });
+    });
+
+    displayProducts(); // load all products on page load
+  </script>
 </body>
 </html>
