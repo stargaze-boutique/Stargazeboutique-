@@ -1,105 +1,124 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stargaze Boutique – Cart</title>
+  <title>Shopping Cart - Stargaze Boutique V50</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animations.css">
+  <script defer src="js/products.js"></script>
+  <script defer src="js/cart.js"></script>
 </head>
 <body>
-
-  <!-- Flash Sale Banner -->
-  <div id="flashSaleBanner">🔥 Flash Sale! Up to 50% OFF – Limited Time!</div>
-
-  <h2>My Cart</h2>
-  <div id="cartContainer"></div>
-
-  <!-- Mini Cart -->
-  <div id="cartIcon">
-    🛒 <span id="cartCount">0</span>
-    <div id="miniCartDropdown">
-      <h4>My Cart</h4>
-      <div id="miniCartItems"></div>
-      <p>Total: ₹<span id="miniCartTotal">0</span></p>
-      <a href="cart.html">Go to Cart</a>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="images/logo/logo.png" alt="Stargaze Boutique Logo">
     </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CART SECTION -->
+  <section class="cart-section">
+    <h1>Your Shopping Cart</h1>
+    <div id="cart-items">
+      <!-- Cart items dynamically loaded -->
+    </div>
+    <div class="cart-summary">
+      <p>Total: <span id="total-price">0 AED</span></p>
+      <a href="checkout.html" class="btn-primary">Proceed to Checkout</a>
+    </div>
+  </section>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div id="whatsapp-button">
+    <a href="https://wa.me/1234567890" target="_blank">
+      <img src="images/icons/whatsapp.png" alt="WhatsApp">
+    </a>
   </div>
 
-  <!-- Newsletter Popup -->
-  <div id="newsletterPopup">
-    <span onclick="closeNewsletter()">❌</span>
-    <h3>Subscribe to Our Newsletter</h3>
-    <p>Get updates & exclusive discounts!</p>
-    <input type="email" id="newsletterEmail" placeholder="Your Email"><br><br>
-    <button onclick="subscribeNewsletter()">Subscribe</button>
-  </div>
-
-  <!-- JS Scripts -->
-  <script src="js/products.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/render.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/lazyload.js"></script>
-  <script src="js/newsletter.js"></script>
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Stargaze Boutique. All rights reserved.</p>
+    <nav>
+      <ul>
+        <li><a href="disclaimer.html">Privacy & Policy</a></li>
+        <li><a href="size-chart.html">Size Chart</a></li>
+      </ul>
+    </nav>
+  </footer>
 
   <script>
-    function renderCart(){
-      const cartContainer = document.getElementById('cartContainer');
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cartContainer.innerHTML = '';
+    const cartItemsContainer = document.getElementById("cart-items");
+    const totalPriceEl = document.getElementById("total-price");
 
-      if(cart.length === 0){
-        cartContainer.innerHTML = '<p>Your cart is empty!</p>';
-        updateMiniCart();
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      if(cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+        totalPriceEl.textContent = "0 AED";
         return;
       }
 
       let total = 0;
+      cartItemsContainer.innerHTML = "";
+      cart.forEach((item, index) => {
+        const product = products.find(p => p.id === item.id);
+        if(!product) return;
 
-      cart.forEach((p,i)=>{
-        total += parseFloat(p.price);
-        cartContainer.innerHTML += `
-          <div class="cart-item fade-in">
-            <img src="${p.image}" alt="${p.name}" width="100">
-            <h3>${p.name}</h3>
-            <p>₹${p.price}</p>
-            <button onclick="removeFromCart(${i})">Remove</button>
+        const priceNum = parseFloat(product.price.replace(" AED",""));
+        const subtotal = priceNum * item.quantity;
+        total += subtotal;
+
+        const cartItemEl = document.createElement("div");
+        cartItemEl.classList.add("cart-item");
+        cartItemEl.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <div class="cart-item-info">
+            <h3>${product.name}</h3>
+            <p>Material: ${product.material}</p>
+            <p>Price: ${product.price}</p>
+            <div>
+              Quantity: <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="quantity-input">
+              <button data-index="${index}" class="remove-btn">Remove</button>
+            </div>
+            <p>Subtotal: ${subtotal} AED</p>
           </div>
         `;
+        cartItemsContainer.appendChild(cartItemEl);
+      });
+      totalPriceEl.textContent = total + " AED";
+
+      // Add event listeners
+      document.querySelectorAll(".quantity-input").forEach(input => {
+        input.addEventListener("change", e => {
+          const idx = e.target.dataset.index;
+          cart[idx].quantity = parseInt(e.target.value);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        });
       });
 
-      cartContainer.innerHTML += `<h3>Total: ₹${total}</h3>`;
-      updateMiniCart();
-    }
-
-    function removeFromCart(index){
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.splice(index,1);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCart();
-    }
-
-    function updateMiniCart(){
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const miniCartItems = document.getElementById('miniCartItems');
-      const miniCartTotal = document.getElementById('miniCartTotal');
-      const cartCount = document.getElementById('cartCount');
-
-      miniCartItems.innerHTML = '';
-      let total = 0;
-
-      cart.forEach(p=>{
-        total += parseFloat(p.price);
-        miniCartItems.innerHTML += `<p>${p.name} - ₹${p.price}</p>`;
+      document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const idx = e.target.dataset.index;
+          cart.splice(idx, 1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        });
       });
-
-      miniCartTotal.innerText = total;
-      cartCount.innerText = cart.length;
     }
 
     renderCart();
   </script>
-
 </body>
 </html>
