@@ -1,36 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product | Stargaze Boutique</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - Stargaze Boutique V50</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/products.js"></script>
+  <script defer src="js/product.js"></script>
 </head>
 <body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="images/logo/logo.png" alt="Stargaze Boutique Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<h1>Product Detail</h1>
+  <!-- PRODUCT DETAIL SECTION -->
+  <section class="product-detail" id="product-detail">
+    <!-- Dynamically loaded product -->
+  </section>
 
-<div id="product-container"></div>
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div id="whatsapp-button">
+    <a href="https://wa.me/1234567890" target="_blank">
+      <img src="images/icons/whatsapp.png" alt="WhatsApp">
+    </a>
+  </div>
 
-<script src="products.js"></script>
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Stargaze Boutique. All rights reserved.</p>
+    <nav>
+      <ul>
+        <li><a href="disclaimer.html">Privacy & Policy</a></li>
+        <li><a href="size-chart.html">Size Chart</a></li>
+      </ul>
+    </nav>
+  </footer>
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+  <script>
+    // Get product ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get("id"));
 
-const product = products.find(p => p.id == id);
+    const productDetail = document.getElementById("product-detail");
 
-if(product){
-document.getElementById("product-container").innerHTML = `
-<h2>${product.name}</h2>
-<img src="${product.image}" width="300">
-<p>Price: ${product.price}</p>
-<button>Add to Cart</button>
-`;
-}
-</script>
+    const product = products.find(p => p.id === productId);
 
+    if (product) {
+      productDetail.innerHTML = `
+        <div class="product-images">
+          <img src="${product.image}" alt="${product.name}">
+        </div>
+        <div class="product-info">
+          <h1>${product.name}</h1>
+          <p class="material">Material: ${product.material}</p>
+          <p class="price">${product.price}</p>
+          <div class="actions">
+            <a href="cart.html" class="btn-primary">Add to Cart</a>
+            <a href="https://wa.me/1234567890" target="_blank" class="btn-whatsapp">Order on WhatsApp</a>
+          </div>
+          <div class="ads-placeholder">
+            <!-- Your Ads or Promotional Banners here -->
+          </div>
+        </div>
+      `;
+    } else {
+      productDetail.innerHTML = "<p>Product not found.</p>";
+    }
+  </script>
 </body>
 </html>
