@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }.container {
+  background: #fff;
+  border-radius: 15px;
+  width: 380px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  overflow: hidden;
+  text-align: center;
+}
+
+/* ===== IMAGE SECTION (EDIT / DELETE THIS) ===== */
+.image {
+  width: 100%;
+  height: 180px;
+  background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') no-repeat center/cover;
+}
+
+.content {
+  padding: 25px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+p {
+  color: #666;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #5a67d8;
+}
+
+.note {
+  font-size: 12px;
+  color: #999;
+  margin-top: 10px;
+}
+
+  </style>
+</head>
+<body>  <div class="container"><!-- =============================== -->
+<!--  IMAGE SECTION (EDIT OR DELETE) -->
+<!-- =============================== -->
+<!-- To CHANGE image: replace URL below -->
+<!-- To REMOVE image: delete this div -->
+<div class="image"></div>
+
+<div class="content">
+  <h2>Join Our Newsletter</h2>
+  <p>Get updates, offers & latest news.</p>
+
+  <!-- FORM (HTML ONLY - NO BACKEND) -->
+  <form>
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <!-- SUCCESS MESSAGE (HIDDEN BY DEFAULT) -->
+  <div id="successMsg" style="display:none; color: green; margin-top:10px; font-size:14px;">
+    ✅ Thank you! You are subscribed.
+  </div>
+
+  <script>
+    const form = document.querySelector("form");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault(); // stop actual submit
+      successMsg.style.display = "block";
+      form.reset();
+    });
+  
+    // STORE EMAILS IN BROWSER + DOWNLOAD CSV
+    let subscribers = [];
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = form.querySelector('input[name="name"]').value;
+      const email = form.querySelector('input[name="email"]').value;
+
+      subscribers.push({ name, email });
+
+      successMsg.style.display = "block";
+      form.reset();
+    });
+
+    // DOWNLOAD CSV BUTTON FUNCTION
+    function downloadCSV() {
+      let csv = "Name,Email
+
+"; subscribers.forEach(sub => { csv += ${sub.name},${sub.email} ; });
+
+const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'subscribers.csv');
+      a.click();
+    }
+  </script>
+
+  <!-- DOWNLOAD BUTTON -->
+  <button onclick="downloadCSV()" style="margin-top:10px; background:#28a745;">
+    Download Emails
+  </button>
+
+  <div class="note">
+    * Placeholder form — collect emails manually.
+  </div>
+</div>
+
+  </div></body>
+</html>
