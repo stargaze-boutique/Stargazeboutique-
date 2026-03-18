@@ -1,14 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wishlist - Stargazeboutique</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+<style>
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
+header { display:flex; align-items:center; justify-content:space-between; padding:10px 20px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+header nav a { margin:0 10px; text-decoration:none; color:#333; }
+.wishlist-items { display:flex; flex-wrap:wrap; justify-content:center; padding:20px; }
+.wishlist-item { background:#fff; border-radius:10px; width:200px; margin:10px; padding:10px; box-shadow:0 3px 8px rgba(0,0,0,0.1); text-align:center; }
+.wishlist-item img { width:100%; border-radius:8px; }
+.wishlist-item h3 { margin:10px 0 5px 0; font-size:16px; }
+.wishlist-item p { margin:5px 0; font-size:14px; color:#666; }
+.wishlist-item button { margin:5px 2px; padding:6px 10px; border:none; border-radius:5px; cursor:pointer; }
+.remove-btn { background:#e74c3c; color:#fff; }
+.add-cart-btn { background:#27ae60; color:#fff; }
+.edit-btn { background:#f1c40f; color:#fff; }
+.add-new-btn { margin:10px; padding:8px 12px; background:#2980b9; color:#fff; border:none; border-radius:5px; cursor:pointer; }/* MODAL FORM */ .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; } .modal-content { background:#fff; padding:20px; border-radius:10px; width:300px; text-align:center; } .modal-content input { width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc; } .modal-content button { margin-top:10px; } </style>
 
-<header>
+</head>
+<body><header>
   <img src="images/logo.png" alt="Stargazeboutique Logo" style="height:50px;">
   <nav>
     <a href="index.html">Home</a>
@@ -17,37 +28,90 @@
     <a href="wishlist.html">Wishlist</a>
     <a href="contact.html">Contact</a>
   </nav>
-</header>
+</header><h1 style="text-align:center; padding:20px 0;">Your Wishlist</h1><button class="add-new-btn" onclick="openModal()">Add New Item</button>
 
-<h1>Your Wishlist</h1>
-
-<section class="wishlist-items">
-
-  <div class="wishlist-item">
-    <img src="images/product-images/saree1.jpg" alt="Party Wear Saree">
-    <div class="item-info">
-      <h3>Party Wear Saree</h3>
-      <p>Price: 199 AED</p>
-      <button>Remove</button>
-      <button>Add to Cart</button>
-    </div>
+<section class="wishlist-items" id="wishlistItems"></section><!-- MODAL FORM --><div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Add Item</h3>
+    <input type="text" id="itemName" placeholder="Product Name">
+    <input type="text" id="itemPrice" placeholder="Price (AED)">
+    <input type="text" id="itemImg" placeholder="Image URL">
+    <button onclick="saveItem()">Save</button>
+    <button onclick="closeModal()">Cancel</button>
   </div>
-
-  <div class="wishlist-item">
-    <img src="images/product-images/gown1.jpg" alt="Luxury Gown">
-    <div class="item-info">
-      <h3>Luxury Gown</h3>
-      <p>Price: 299 AED</p>
-      <button>Remove</button>
-      <button>Add to Cart</button>
-    </div>
-  </div>
-
-</section>
-
-<footer>
+</div><footer style="text-align:center; padding:20px 0; background:#fff; margin-top:20px; box-shadow:0 -2px 5px rgba(0,0,0,0.1);">
   Stargazeboutique © 2026 | <a href="privacy.html">Privacy</a> | <a href="disclaimer.html">Disclaimer</a>
-</footer>
+</footer><script>
+let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+let editIndex = null;
 
-</body>
+const wishlistItems = document.getElementById('wishlistItems');
+const modal = document.getElementById('modal');
+
+function renderWishlist() {
+  wishlistItems.innerHTML = '';
+  wishlist.forEach((item, index) => {
+    const div = document.createElement('div');
+    div.className = 'wishlist-item';
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.name}">
+      <h3>${item.name}</h3>
+      <p>Price: ${item.price}</p>
+      <button class="edit-btn" onclick="editItem(${index})">Edit</button>
+      <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+      <button class="add-cart-btn" onclick="addToCart('${item.name}')">Add to Cart</button>
+    `;
+    wishlistItems.appendChild(div);
+  });
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+}
+
+function openModal() {
+  modal.style.display = 'flex';
+  document.getElementById('modalTitle').innerText = 'Add Item';
+  editIndex = null;
+}
+
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+function saveItem() {
+  const name = document.getElementById('itemName').value;
+  const price = document.getElementById('itemPrice').value;
+  const img = document.getElementById('itemImg').value;
+
+  if (!name || !price || !img) return alert('Fill all fields');
+
+  if (editIndex === null) {
+    wishlist.push({ name, price, img });
+  } else {
+    wishlist[editIndex] = { name, price, img };
+  }
+
+  closeModal();
+  renderWishlist();
+}
+
+function editItem(index) {
+  const item = wishlist[index];
+  document.getElementById('itemName').value = item.name;
+  document.getElementById('itemPrice').value = item.price;
+  document.getElementById('itemImg').value = item.img;
+  editIndex = index;
+  document.getElementById('modalTitle').innerText = 'Edit Item';
+  modal.style.display = 'flex';
+}
+
+function removeItem(index) {
+  wishlist.splice(index, 1);
+  renderWishlist();
+}
+
+function addToCart(name) {
+  alert(name + ' added to cart!');
+}
+
+renderWishlist();
+</script></body>
 </html>
