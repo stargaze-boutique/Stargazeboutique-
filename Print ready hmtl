@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargazeboutique – Ultimate Infographic</title>
+<style>
+body { font-family: Arial, sans-serif; margin:20px; line-height:1.5; color:#222; }
+h1,h2,h3 { margin:10px 0; }
+.section { margin-bottom:25px; border-bottom:1px solid #ccc; padding-bottom:15px; }
+.folder-tree { font-family: monospace; background:#f8f8f8; padding:10px; margin:10px 0; }
+.workflow, .steps, .notes { margin:10px 0; padding:10px; background:#f0f8ff; border-radius:6px; }
+.visual { display:inline-block; width:150px; margin:5px; text-align:center; vertical-align:top; }
+.visual img { width:100%; height:100px; object-fit:cover; border:1px solid #ddd; }
+.checklist li { margin:5px 0; }
+</style>
+</head>
+<body>
+
+<h1>Stargazeboutique – Ultimate Infographic</h1>
+<p><b>Version:</b> 2026.03 | <b>JS-Free, Professional, Tablet-Ready</b></p>
+
+<!-- Section 1: Folder Structure -->
+<div class="section">
+<h2>Folder Structure</h2>
+<pre class="folder-tree">
+stargazeboutique/
+├── index.html
+├── shop.html
+├── cart.html
+├── wishlist.html
+├── admin.html
+├── category-pages/
+├── images/
+├── css/style.css
+└── HTML-PDF-Template.html
+</pre>
+</div>
+
+<!-- Section 2: Workflow -->
+<div class="section workflow">
+<h2>Product & Category Workflow</h2>
+<ul>
+<li><b>Product:</b> Add → Edit → Delete → Refresh Browser</li>
+<li><b>Category:</b> Add Section → Update & Add Products → Optional New Page</li>
+<li><b>Cart & Wishlist:</b> Edit → Refresh → Verify Layout</li>
+<li><b>Admin Panel:</b> Edit/Delete placeholders → Refresh</li>
+<li><b>PDF Reference:</b> Insert Screenshots/Images → Print → Save as PDF</li>
+</ul>
+</div>
+
+<!-- Section 3: Tablet Launch Steps -->
+<div class="section steps">
+<h2>Tablet Launch Steps</h2>
+<ul class="checklist">
+<li>Copy folder → tablet storage</li>
+<li>Open <b>index.html</b> → verify homepage & banner</li>
+<li>Navigate: Shop → Categories → Cart → Wishlist → Admin</li>
+<li>Add/Edit/Delete products → Refresh Browser</li>
+<li>Verify responsive layout (portrait & landscape)</li>
+</ul>
+</div>
+
+<!-- Section 4: Visual Mockups -->
+<div class="section">
+<h2>Visual Mockups</h2>
+<div class="visual">
+<img src="images/product-images/kurti1.jpg" alt="Kurti 1">
+<p>Kurti Set</p>
+</div>
+<div class="visual">
+<img src="images/product-images/lehenga1.jpg" alt="Lehenga 1">
+<p>Wedding Lehenga</p>
+</div>
+<div class="visual">
+<img src="images/product-images/saree1.jpg" alt="Saree 1">
+<p>Party Wear Saree</p>
+</div>
+</div>
+
+<!-- Section 5: Notes & Best Practices -->
+<div class="section notes">
+<h2>Notes & Best Practices</h2>
+<ul>
+<li>Backup folder before editing</li>
+<li>Compress images for faster tablet load</li>
+<li>Unlimited products & categories</li>
+<li>Fully JS-free, professional, responsive</li>
+</ul>
+</div>
+
+</body>
+</html>
