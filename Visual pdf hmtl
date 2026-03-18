@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargazeboutique – Visual PDF Export</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:20px; line-height:1.5; }
+  h1,h2,h3 { margin:10px 0; }
+  .section { margin-bottom:30px; border-bottom:1px solid #ccc; padding-bottom:15px; }
+  .folder-tree { font-family: monospace; background:#f8f8f8; padding:10px; margin:10px 0; }
+  .product-card, .admin-card, .cart-card, .wishlist-card { display:inline-block; width:150px; margin:5px; text-align:center; vertical-align:top; }
+  .product-card img, .admin-card img, .cart-card img, .wishlist-card img { width:100%; height:100px; object-fit:cover; border:1px solid #ddd; }
+  .checklist { margin:10px 0; padding-left:20px; }
+  .checklist li { margin:5px 0; }
+</style>
+</head>
+<body>
+
+<h1>Stargazeboutique – Visual PDF Export Mockup</h1>
+
+<!-- Section 1: Folder Structure -->
+<div class="section">
+  <h2>Folder & Files Structure</h2>
+  <pre class="folder-tree">
+stargazeboutique/
+├── index.html
+├── shop.html
+├── cart.html
+├── checkout.html
+├── wishlist.html
+├── admin.html
+├── category-pages/
+│   ├── kurti.html
+│   ├── lehenga.html
+│   └── ...
+├── images/
+│   ├── logo.png
+│   ├── banner-free-shipping.png
+│   └── product-images/
+├── css/style.css
+└── README.md
+  </pre>
+</div>
+
+<!-- Section 2: Product Mockups -->
+<div class="section">
+  <h2>Product Mockups</h2>
+  <div class="product-card">
+    <img src="images/product-images/kurti1.jpg" alt="Kurti 1">
+    <p>Designer Kurti Set</p>
+    <p>149 AED</p>
+  </div>
+  <div class="product-card">
+    <img src="images/product-images/lehenga1.jpg" alt="Lehenga 1">
+    <p>Wedding Lehenga</p>
+    <p>399 AED</p>
+  </div>
+  <div class="product-card">
+    <img src="images/product-images/saree1.jpg" alt="Saree 1">
+    <p>Party Wear Saree</p>
+    <p>199 AED</p>
+  </div>
+</div>
+
+<!-- Section 3: Admin Preview -->
+<div class="section">
+  <h2>Admin Panel Preview</h2>
+  <div class="admin-card">
+    <img src="images/product-images/kurti1.jpg" alt="Kurti Admin">
+    <p>Edit / Delete</p>
+  </div>
+  <div class="admin-card">
+    <img src="images/product-images/lehenga1.jpg" alt="Lehenga Admin">
+    <p>Edit / Delete</p>
+  </div>
+</div>
+
+<!-- Section 4: Cart & Wishlist -->
+<div class="section">
+  <h2>Cart & Wishlist Preview</h2>
+  <div class="cart-card">
+    <img src="images/product-images/kurti1.jpg" alt="Cart Item">
+    <p>Kurti Set</p>
+    <p>Qty: 1</p>
+  </div>
+  <div class="wishlist-card">
+    <img src="images/product-images/lehenga1.jpg" alt="Wishlist Item">
+    <p>Wedding Lehenga</p>
+  </div>
+</div>
+
+<!-- Section 5: Quick Access Checklist -->
+<div class="section">
+  <h2>Quick Access Checklist</h2>
+  <ul class="checklist">
+    <li>Copy folder to tablet storage</li>
+    <li>Open <b>index.html</b> → verify homepage</li>
+    <li>Check navigation: Home → Shop → Categories → Cart → Wishlist → Admin</li>
+    <li>Add/Edit/Delete products in category HTML files</li>
+    <li>Refresh browser to see changes</li>
+    <li>Check cart.html & wishlist.html</li>
+    <li>Verify admin.html visual preview</li>
+    <li>Test portrait & landscape responsive layout</li>
+    <li>Backup files before editing</li>
+  </ul>
+</div>
+
+<!-- Section 6: Notes -->
+<div class="section">
+  <h2>Notes</h2>
+  <p>Fully JS-free, professional, responsive, unlimited products and categories. Tablet ready. Insert images & export PDF for quick reference.</p>
+</div>
+
+</body>
+</html>
